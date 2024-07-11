@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/EBBS.iml" filepath="$PROJECT_DIR$/.idea/EBBS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../pythonProject/.idea/School.iml" filepath="$PROJECT_DIR$/../pythonProject/.idea/School.iml" />
     </modules>
   </component>
 </project>
