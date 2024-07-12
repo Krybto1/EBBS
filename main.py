@@ -22,6 +22,7 @@ Boss_Choices = "Attack", "Defend", "Sleep"
 
 while Knight1.get_hp() >= 0: #and Boss1.get_hp() >= 0:
     Turn += 1
+    XP_check = Knight1.get_xp()
     print(f"{'':>80}Turn {Turn} \n{'Character':<15}{'HP':<15}{'Attack':<15}{'Defense':<15}{'Level':<15}{'':>25}{'Boss':<15}"
           f"{'HP':<15}{'Attack':<15}{'Defense':<15}{'Level':<15}")
     print(f"{Knight1.get_name():<15}{Knight1.get_hp():<15}{Knight1.get_attack():<15}{Knight1.get_defense():<15}{Knight1.get_level():<15}"
@@ -67,11 +68,13 @@ while Knight1.get_hp() >= 0: #and Boss1.get_hp() >= 0:
         print(f"{'':<68}{Boss1.get_name()} has defeated {Knight1.get_name()}")
         break
 
-    if Knight1.get_xp() >= Player_XP_Thr:
-        Knight1.set_xp(Knight1.get_xp() - Player_XP_Thr)
-        Knight1.set_level(Knight1.get_level() + 1)
-        Knight1.set_hp = Base_Knight_HP + (75 * Knight1.level)
-        Knight1.set_atk = Base_Knight_ATK + (7 * Knight1.level)
-        Knight1.set_defense = Base_Knight_DEF + (4 * Knight1.level)
+    if XP_check >= Player_XP_Thr:
+        Knight1.set_xp(XP_check - Player_XP_Thr)
+        Knight1.level += 1
+        Knight1.hp = Base_Knight_HP + (75 * Knight1.get_level())
+        Knight1.atk += 7
+        Knight1.defense += 4
+
+
 
 print("game over")

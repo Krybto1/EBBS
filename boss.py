@@ -1,5 +1,5 @@
 import random
-import main
+
 
 lvlup_boss = random.randint(1, 3)
 
@@ -78,8 +78,7 @@ class Knight():
         self.xp = xp
 
     def level_up(self):
-        self.xp = (self.get_xp() - main.Player_XP_Thr)
-        self.level = (self.get_level() + 1)
-        Knight1.set_hp = Base_Knight_HP + (75 * Knight1.level)
-        Knight1.set_atk = Base_Knight_ATK + (7 * Knight1.level)
-        Knight1.set_defense = Base_Knight_DEF + (4 * Knight1.level)
+        self.level += 1
+        self.set_hp = 100 + (75 * self.level)
+        self.set_atk = 15 + (7 * self.level)
+        self.set_defense = 10 + (4 * self.level)
