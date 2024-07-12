@@ -88,3 +88,34 @@ rarity_tiers = [
     f"{MAGENTA}Celestial{RESET}",
     f"{MAGENTA}Cosmic{RESET}"
 ]
+
+rarity_scale = {
+    "Common": 1,
+    "Uncommon": 1.1,
+    "Rare": 1.15,
+    "Epic": 1.2,
+    "Legendary": 1.3,
+    "Mythic": 1.4,
+    "Exotic": 1.5,
+    "Ancient": 1.6,
+    "Fabled": 1.7,
+    "Heroic": 1.8,
+    "Masterwork": 2,
+    "Miraculous": 2.1,
+    "Mystical": 2.2,
+    "Obscure": 2.3,
+    "Phantasmal": 2.4,
+    "Relic": 2.5,
+    "Sacred": 2.6,
+    "Secret": 2.7,
+    "Shiny": 2.8,
+    "Supreme": 2.9,
+    "Transcendent": 3,
+    "Unparalleled": 3.2,
+    "Untouchable": 3.4,
+    "Zenith": 3.6,
+    "Supreme Legendary": 3.8,
+    "Divine": 4,
+    "Celestial": 4.5,
+    "Cosmic": 5
+}

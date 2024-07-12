@@ -33,11 +33,14 @@ class Boss():
     def get_defense(self):
         return self.defense
 
+    def set_defense(self, defense):
+        self.defense = defense
+
     def get_level(self):
         return self.level
 
     def kill(self):
-        xp_grab = self.level * 100
+        xp_grab = self.level * (100 ** 1.02)
         self.level += lvlup_boss
         self.hp = self.hp + (30 * self.level)
         self.atk = self.atk + (3 * self.level)
