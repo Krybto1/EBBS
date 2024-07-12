@@ -25,14 +25,14 @@ while Knight1.get_hp() >= 0: #and Boss1.get_hp() >= 0:
     XP_check = Knight1.get_xp()
     print(f"{'':>80}Turn {Turn} \n{'Character':<15}{'HP':<15}{'Attack':<15}{'Defense':<15}{'Level':<15}{'':>25}{'Boss':<15}"
           f"{'HP':<15}{'Attack':<15}{'Defense':<15}{'Level':<15}")
-    print(f"{Knight1.get_name():<15}{Knight1.get_hp():<15}{Knight1.get_attack():<15}{Knight1.get_defense():<15}{Knight1.get_level():<15}"
-          f"{'':>25}{Boss1.get_name():<15}{Boss1.get_hp():<15}{Boss1.get_attack():<15}{Boss1.get_defense():<15}{Boss1.get_level():<15}")
+    print(f"{Knight1.get_name():<15}{max(Knight1.get_hp(), 0):<15}{Knight1.get_attack():<15}{Knight1.get_defense():<15}{Knight1.get_level():<15}"
+          f"{'':>25}{Boss1.get_name():<25}{max(Boss1.get_hp(), 0):<15}{Boss1.get_attack():<15}{Boss1.get_defense():<15}{Boss1.get_level():<15}")
     print(f"{colors.GREEN}XP: {Knight1.get_xp()} /// {Player_XP_Thr:<15}{colors.RESET}")
 
     boss_choice = random.choice(Boss_Choices)
     choice_att_def = input(f"\n{'':<68}What do you want to do? Attack or Defend: ")
 
-    if choice_att_def == "Attack" or choice_att_def == "attack" or choice_att_def == "A" or choice_att_def == "a":
+    if choice_att_def.lower() in ["a", "atk", "attack"]:
         print(f"{'':<68}{Knight1.get_name()} attacks {Boss1.get_name()}")
         if boss_choice == "Defend":
             print(f"{'':<68}{Boss1.get_name()} defends")
@@ -63,6 +63,7 @@ while Knight1.get_hp() >= 0: #and Boss1.get_hp() >= 0:
         print(f"{'':<68}{Knight1.get_name()} has defeated {Boss1.get_name()}")
         Boss.kill(self=Boss1)
         Knight1.set_xp(Knight1.get_xp() + Boss1.kill())
+        Boss1.set_name(random.choice(colors.enemies))
 
     elif Knight1.get_hp() <= 0:
         print(f"{'':<68}{Boss1.get_name()} has defeated {Knight1.get_name()}")

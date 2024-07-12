@@ -20,6 +20,9 @@ class Boss():
     def set_hp(self, hp):
         self.hp = hp
 
+    def set_name(self, name):
+        self.name = name
+
 
     def get_attack(self):
         return self.atk
