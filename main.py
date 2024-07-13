@@ -7,7 +7,7 @@ from boss import Knight
 Turn = 0
 Floor = 1
 CharName = input("Enter your character name: ")
-Boss1 = Boss(f"{misc.rarity_tiers[0]} {'Goblin'}", 75, 13, 7, 1)
+Boss1 = Boss(f"{misc.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
 Knight1 = Knight(CharName, 100, 15, 10, 1, 0)
 
 Base_Boss_HP = Boss1.get_hp()
