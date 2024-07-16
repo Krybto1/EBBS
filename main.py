@@ -8,7 +8,7 @@ Turn = 0
 Floor = 1
 CharName = input("Enter your character name: ")
 Boss1 = Boss(f"{misc.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
-Knight1 = Knight(CharName, 100, 15, 10, 1, 0)
+Knight1 = Knight(CharName, 100, 150, 10, 1, 0)
 
 Base_Boss_HP = Boss1.get_hp()
 Base_Boss_ATK = Boss1.get_attack()
@@ -33,7 +33,7 @@ while Knight1.get_hp() >= 0:
 
     XP_check2 = Knight1.get_xp()
     Player_XP_Thr = int((80 * Knight1.get_level()) ** 1.07)
-    time.sleep(0.4)
+    time.sleep(0.3)
 
     print(f"{'':>75}Floor {Floor} Turn {Turn} \n{'Character':<15}{misc.GREEN}{'HP':<15}{misc.RED}{'Attack':<15}"
           f"{misc.BLUE}{'Defense':<15}{misc.MAGENTA}{'Level':<15}{misc.RESET}{'':>25}{'Boss':30}"
@@ -43,7 +43,7 @@ while Knight1.get_hp() >= 0:
         f"{'':>25}{Boss1.get_name():<40}{max(Boss1.get_hp(), 0):<15}{Boss1.get_attack():<15}{Boss1.get_defense():<15}{Boss1.get_level():<15}")
     print(f"{misc.GREEN}XP: {XP_check2} /// {Player_XP_Thr:<15}{misc.RESET}")
 
-    time.sleep(0.4)
+    time.sleep(0.3)
 
 
     boss_choice = random.choice(Boss_Choices)
@@ -51,7 +51,7 @@ while Knight1.get_hp() >= 0:
         f"\n{'':<58}What do you want to do? {misc.RED}Attack{misc.RESET}, {misc.BLUE}Defend{misc.RESET} or {misc.MAGENTA}Sleep?{misc.RESET}: ")
 
 
-    time.sleep(0.4)
+    time.sleep(0.3)
 
     if boss_choice == "Defend" and choice_att_def.lower() in ["d", "def", "defend"]:
         print(
@@ -89,7 +89,7 @@ while Knight1.get_hp() >= 0:
         if boss_choice == "Defend":
             print(f"{'':<58}{Boss1.get_name()} {misc.BLUE}defends{misc.RESET} but there is no damage to {misc.CYAN}block{misc.RESET}")
 
-    time.sleep(0.4)
+    time.sleep(0.3)
 
     if boss_choice == "Attack" and choice_att_def not in ["d", "def", "defend"] and Boss1.get_attack() > Knight1.get_defense():
         if choice_att_def.lower() in ["d", "def", "defend"]:
@@ -110,7 +110,7 @@ while Knight1.get_hp() >= 0:
         Boss1.set_hp(Boss1.get_hp() + heal)
         print(f"{'':<58}{Boss1.get_name()} {misc.MAGENTA}sleeps{misc.RESET} and regains {heal} HP")
 
-    time.sleep(0.4)
+    time.sleep(0.3)
 
     print("\n" * 3)
     if Boss1.get_hp() <= 0:
@@ -118,13 +118,18 @@ while Knight1.get_hp() >= 0:
         print(f"Gained {int((Boss1.get_xp() * Scale))} XP! ")
         Knight1.set_xp(int(Knight1.get_xp() + (Boss1.get_xp() * Scale)))
         Boss1.kill()
-        Rarity_Choice = random.choices(misc.rarity_tiers,
+        if Floor > 5:
+            Rarity_Choice = random.choices(misc.rarity_tiers,
                                        weights=[0.3, 0.2, 0.1, 0.04, 0.04, 0.03, 0.03, 0.03,
                                                 0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
                                                 0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
                                                 0.01, 0.01, 0.01, 0.01, 0.01], k=1)
-        Scale = misc.rarity_scale[Rarity_Choice[0][5:-4]]
-        Boss1.set_name(f"{Rarity_Choice[0]} {random.choice(misc.enemies)}")
+            Scale = misc.rarity_scale[Rarity_Choice[0][5:-4]]
+            Boss1.set_name(f"{Rarity_Choice[0]} {random.choice(misc.enemies)}")
+        else:
+            Rarity_Choice = misc.rarity_tiers[0]
+            Scale = 1
+            Boss1.set_name(f"{Rarity_Choice} {random.choice(misc.enemies)}")
         Boss1.set_hp(int(Boss1.get_hp() * Scale))
         Boss1.set_attack(int(Boss1.get_attack() * Scale))
         Boss1.set_defense(int(Boss1.get_defense() * Scale))
@@ -136,7 +141,7 @@ while Knight1.get_hp() >= 0:
         print(f"{'':<58}{Boss1.get_name()} has {misc.BRIGHT_RED}defeated{misc.RESET} {Knight1.get_name()}")
         break
 
-    time.sleep(0.4)
+    time.sleep(0.3)
     print("\n" * 3)
 
 print(f"{misc.BRIGHT_RED} Game Over {misc.RESET} \nYou have defeated {Kill_Count} bosses")
