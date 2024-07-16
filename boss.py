@@ -91,6 +91,6 @@ class Knight:
     def level_up(self):
         self.level += 1
         self.hp = int(100 + ((40 * self.level) ** 1.1))
-        self.atk = int(15 + ((11 * self.level) ** 1.1))
-        self.defense = int(10 + ((5 * self.level) ** 1.1))
+        self.atk = int(15 + ((12 * self.level) ** 1.1))
+        self.defense = int(10 + ((6 * self.level) ** 1.1))
 

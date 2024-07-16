@@ -24,7 +24,7 @@ Boss_Choices = "Attack", "Defend", "Sleep"
 
 while Knight1.get_hp() >= 0:
     Turn += 1
-    Player_XP_Thr = int((80 * Knight1.get_level()) ** 1.05)
+    Player_XP_Thr = int((80 * Knight1.get_level()) ** 1.07)
     XP_check = Knight1.get_xp()
     while XP_check >= Player_XP_Thr:
         Knight1.set_xp(XP_check - Player_XP_Thr)
@@ -32,7 +32,7 @@ while Knight1.get_hp() >= 0:
         XP_check = Knight1.get_xp()
 
     XP_check2 = Knight1.get_xp()
-    Player_XP_Thr = int((80 * Knight1.get_level()) ** 1.05)
+    Player_XP_Thr = int((80 * Knight1.get_level()) ** 1.07)
     time.sleep(0.4)
 
     print(f"{'':>75}Floor {Floor} Turn {Turn} \n{'Character':<15}{misc.GREEN}{'HP':<15}{misc.RED}{'Attack':<15}"
@@ -75,6 +75,8 @@ while Knight1.get_hp() >= 0:
     elif choice_att_def.lower() in ["d", "def", "defend"] and boss_choice == "Attack":
         print(
             f"{'':<58}{Knight1.get_name()} {misc.BLUE}defends{misc.RESET} and {misc.CYAN}blocks{misc.RESET} {(Boss1.get_attack() - Knight1.get_defense()) / 2} damage")
+        print(
+            f"{'':<58}{Boss1.get_name()} {misc.RED}attacks{misc.RESET} {Knight1.get_name()} for {(Boss1.get_attack() - Knight1.get_defense()) / 2} damage")
         Knight1.set_hp(Knight1.get_hp() - ((Boss1.get_attack() - Knight1.get_defense()) / 2))
     elif choice_att_def.lower() in ["d", "def", "defend"] and boss_choice == "Sleep":
         print(
@@ -89,7 +91,7 @@ while Knight1.get_hp() >= 0:
 
     time.sleep(0.4)
 
-    if boss_choice == "Attack" and Boss1.get_attack() > Knight1.get_defense():
+    if boss_choice == "Attack" and choice_att_def not in ["d", "def", "defend"] and Boss1.get_attack() > Knight1.get_defense():
         if choice_att_def.lower() in ["d", "def", "defend"]:
             print(
                 f"{'':<58}{Boss1.get_name()} {misc.RED}attacks{misc.RESET} {Knight1.get_name()} for {(Boss1.get_attack() - Knight1.get_defense()) / 2} damage")
@@ -99,7 +101,7 @@ while Knight1.get_hp() >= 0:
             print(
                 f"{'':<58}{Boss1.get_name()} {misc.RED}attacks{misc.RESET} {Knight1.get_name()} for {Boss1.get_attack() - Knight1.get_defense()} damage")
             Knight1.set_hp(int(Knight1.get_hp() - (Boss1.get_attack() - Knight1.get_defense())))
-    elif boss_choice == "Attack" and Boss1.get_attack() < Knight1.get_defense():
+    elif boss_choice == "Attack" and choice_att_def not in ["d", "def", "defend"] and Boss1.get_attack() < Knight1.get_defense():
         print(
             f"{'':<58}{Boss1.get_name()}'s attack is too low {Knight1.get_name()} took 0 damage!")
 
@@ -140,4 +142,3 @@ while Knight1.get_hp() >= 0:
 print(f"{misc.BRIGHT_RED} Game Over {misc.RESET} \nYou have defeated {Kill_Count} bosses")
 
 # TODO: Save Game Progress
-# TODO: Fix block dmg for Player
