@@ -4,6 +4,7 @@ from boss import Knight
 import misc2
 import random
 
+
 CharName = input("Enter your character name: ")
 Knight1 = Knight(CharName, 100, 15, 10, 1, 0)
 Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
@@ -15,9 +16,10 @@ Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
 #Scale = misc2.rarity_scale[Rarity_Choice[0][5:-4]]
 #Boss1.set_name(f"{Rarity_Choice[0]} {random.choice(misc2.enemies)}")
 
+
 def main():
-    pygame.init()
     screen = pygame.display.set_mode((1200, 800))
+    pygame.display.set_caption("Epic Boss Battle Simulator")
     clock = pygame.time.Clock()
     running = True
     dt = 0
@@ -26,8 +28,16 @@ def main():
     Kill_Count = 0
     Scale = 1
     Boss_Choices = "Attack", "Defend", "Sleep"
+    pygame.init()
+    font_loader = "C:/Windows/Fonts/Calibri.ttf"
+    font = pygame.font.Font(font_loader, 27)
+    button_surface = pygame.Surface((100, 50))
+    button_attack_text = font.render("Attack", True, (255, 255, 255))
+    button_attack_text_rect = button_attack_text.get_rect(
+        center=(button_surface.get_width() / 2, button_surface.get_height() / 2))
+    button_rect = pygame.Rect(125, 125, 150, 50)
+    button_surface.fill((100, 10, 10))
 
-    font = pygame.font.Font(None, 32)
     boss_name = font.render(Boss1.get_name(), 1, (10, 10, 10))
     boss_pos = boss_name.get_rect(centerx=1000, centery=350)
 
@@ -49,6 +59,9 @@ def main():
         screen.blit(player_name, player_pos)
         screen.blit(img_enemy, (900, 100))
         screen.blit(img_player, (100, 100))
+
+        screen.blit(button_surface, (550, 200))
+        button_surface.blit(button_attack_text, button_attack_text_rect)
         pygame.display.flip()
         dt = clock.tick(60)
 

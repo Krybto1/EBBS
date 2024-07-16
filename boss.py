@@ -1,9 +1,6 @@
 import random
 
 
-
-
-
 class Boss:
     def __init__(self, name, hp, atk, defense, level):
         self.name = name
