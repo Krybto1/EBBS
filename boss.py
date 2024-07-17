@@ -1,5 +1,7 @@
 import random
 
+import pygame.draw
+
 
 class Boss:
     def __init__(self, name, hp, atk, defense, level):
@@ -17,6 +19,9 @@ class Boss:
 
     def set_hp(self, hp):
         self.hp = hp
+
+    def get_max_hp(self):
+        return 100 + ((40 * self.level) ** 1.1) if self.level > 1 else 75
 
     def set_name(self, name):
         self.name = name
@@ -48,6 +53,10 @@ class Boss:
         xp_grabber = self.level * (100 ** 1.07)
         return xp_grabber
 
+    def draw_hp_bar(self, screen, x, y, width, height):
+        pygame.draw.rect(screen, (255, 0, 0), (x, y, width, height))
+        hp_width = self.hp / self.get_max_hp() * width
+        pygame.draw.rect(screen, (0, 255, 0), (x, y, hp_width, height))
 
 class Knight:
     def __init__(self, name, hp, atk, defense, level, xp):
@@ -63,6 +72,9 @@ class Knight:
 
     def get_hp(self):
         return self.hp
+
+    def get_max_hp(self):
+        return 100 + ((40 * self.level) ** 1.1) if self.level > 1 else 100
 
     def set_hp(self, hp):
         self.hp = hp
@@ -90,4 +102,9 @@ class Knight:
         self.hp = int(100 + ((40 * self.level) ** 1.1))
         self.atk = int(15 + ((12 * self.level) ** 1.1))
         self.defense = int(10 + ((6 * self.level) ** 1.1))
+
+    def draw_hp_bar(self, screen, x, y, width, height):
+        pygame.draw.rect(screen, (255, 0, 0), (x, y, width, height))
+        hp_width = self.hp / self.get_max_hp() * width
+        pygame.draw.rect(screen, (0, 255, 0), (x, y, hp_width, height))
 
