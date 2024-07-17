@@ -5,6 +5,7 @@ from boss import Boss
 from boss import Knight
 import misc2
 import random
+import os
 
 
 CharName = input("Enter your character name: ")
@@ -182,8 +183,10 @@ def main():
                 Scale = 1
                 Boss1.set_name(f"{Rarity_Choice} {random.choice(misc2.enemies)}")
             boss_index = misc2.enemies.index(Boss1.get_name())
-            if not os.path.exists(misc2.enemies_png[boss_index]):
-            img_enemy = pygame.image.load(misc2.enemies_png[boss_index])
+            if os.path.exists(misc2.enemies_png[boss_index]):
+                img_enemy = pygame.image.load(misc2.enemies_png[boss_index])
+            else:
+                img_enemy = pygame.image.load("img/goblin_text.jpg")
             Boss1.set_hp(int(Boss1.get_hp() * Scale))
             Boss1.set_attack(int(Boss1.get_attack() * Scale))
             Boss1.set_defense(int(Boss1.get_defense() * Scale))
