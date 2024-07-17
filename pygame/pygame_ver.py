@@ -25,6 +25,7 @@ def main():
     pygame.init()
     font_loader = "C:/Windows/Fonts/Calibri.ttf"
     Boss_Choices = ("Attack", "Defend", "Sleep")
+    img_enemy = pygame.image.load("img/goblin_test.jpg")
     font = pygame.font.Font(font_loader, 27)
     Atk_Button = misc2.Button(500, 100, 150, 50, "Attack", (170, 0, 0), (200, 100, 0))
     Def_Button = misc2.Button(500, 175, 150, 50, "Defend", (0, 0, 170), (0, 100, 200))
@@ -33,7 +34,6 @@ def main():
     while running:
         boss_name = font.render(Boss1.get_name(), 1, (10, 10, 10))
         boss_pos = boss_name.get_rect(centerx=1000, centery=350)
-        img_enemy = pygame.image.load("img/goblin_test.jpg")
         img_enemy = pygame.transform.scale(img_enemy, (200, 200))
         boss_heal = (Boss1.get_level() * 2) * 1.5
 
@@ -181,6 +181,9 @@ def main():
                 Rarity_Choice = misc2.rarity_tiers[0]
                 Scale = 1
                 Boss1.set_name(f"{Rarity_Choice} {random.choice(misc2.enemies)}")
+            boss_index = misc2.enemies.index(Boss1.get_name())
+            if not os.path.exists(misc2.enemies_png[boss_index]):
+            img_enemy = pygame.image.load(misc2.enemies_png[boss_index])
             Boss1.set_hp(int(Boss1.get_hp() * Scale))
             Boss1.set_attack(int(Boss1.get_attack() * Scale))
             Boss1.set_defense(int(Boss1.get_defense() * Scale))

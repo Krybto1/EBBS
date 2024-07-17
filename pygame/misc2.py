@@ -59,6 +59,7 @@ enemies = [
     "Abyssal Devourer",
     "Netherworld Wraith"
 ]
+enemies_png = ["img/" + x.replace(" ", "_") + ".png" for x in enemies]
 
 rarity_tiers = [
     "Common",
