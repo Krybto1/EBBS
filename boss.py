@@ -7,6 +7,7 @@ class Boss:
     def __init__(self, name, hp, atk, defense, level):
         self.name = name
         self.hp = hp
+        self.max_hp = hp
         self.atk = atk
         self.defense = defense
         self.level = level
@@ -20,8 +21,11 @@ class Boss:
     def set_hp(self, hp):
         self.hp = hp
 
+    def set_max_hp(self, scale):
+        self.max_hp = int((75 + ((20 * self.level) ** 1.02)) * scale) if self.level > 1 else 75
+
     def get_max_hp(self):
-        return int(75 + ((20 * self.level) ** 1.02) if self.level > 1 else 75)
+        return self.max_hp
 
     def set_name(self, name):
         self.name = name

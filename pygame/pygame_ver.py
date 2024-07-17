@@ -176,7 +176,7 @@ def main():
                                                     0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
                                                     0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
                                                     0.01, 0.01, 0.01, 0.01, 0.01], k=1)
-                Scale = misc2.rarity_scale[Rarity_Choice[0][5:-4]]
+                Scale = misc2.rarity_scale[Rarity_Choice[0]]
                 Boss1.set_name(f"{Rarity_Choice[0]} {random.choice(misc2.enemies)}")
             else:
                 Rarity_Choice = misc2.rarity_tiers[0]
@@ -186,7 +186,8 @@ def main():
             if os.path.exists(misc2.enemies_png[boss_index]):
                 img_enemy = pygame.image.load(misc2.enemies_png[boss_index])
             else:
-                img_enemy = pygame.image.load("img/goblin_text.jpg")
+                img_enemy = pygame.image.load("img/goblin_test.jpg")
+            Boss1.set_max_hp(Scale)
             Boss1.set_hp(int(Boss1.get_hp() * Scale))
             Boss1.set_attack(int(Boss1.get_attack() * Scale))
             Boss1.set_defense(int(Boss1.get_defense() * Scale))
