@@ -15,13 +15,13 @@ class Boss:
         return self.name
 
     def get_hp(self):
-        return self.hp
+        return int(self.hp)
 
     def set_hp(self, hp):
         self.hp = hp
 
     def get_max_hp(self):
-        return 100 + ((40 * self.level) ** 1.1) if self.level > 1 else 75
+        return int(75 + ((20 * self.level) ** 1.02) if self.level > 1 else 75)
 
     def set_name(self, name):
         self.name = name
@@ -71,10 +71,10 @@ class Knight:
         return self.name
 
     def get_hp(self):
-        return self.hp
+        return int(self.hp)
 
     def get_max_hp(self):
-        return 100 + ((40 * self.level) ** 1.1) if self.level > 1 else 100
+        return int(100 + ((40 * self.level) ** 1.1) if self.level > 1 else 100)
 
     def set_hp(self, hp):
         self.hp = hp

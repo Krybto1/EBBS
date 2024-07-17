@@ -141,19 +141,19 @@ def main():
         screen.blit(boss_name, boss_pos)
         screen.blit(img_enemy, (900, 100))
         Boss1.draw_hp_bar(screen, 900, 300, 200, 25)
-        screen.blit(font.render(f"HP: {max(Boss1.get_hp(), 0)}", 1, (10, 10, 10)), (930, 300))
+        screen.blit(font.render(f"HP: {max(int(Boss1.get_hp()), 0)}", 1, (10, 10, 10)), (930, 300))
         screen.blit(font.render(f"Stats", 1, (10, 10, 10)), (975, 400))
-        screen.blit(font.render(f"{Boss1.get_attack()} Attack", 1, (170, 0, 0)), (940, 430))
-        screen.blit(font.render(f"{Boss1.get_defense()} Defense", 1, (0, 0, 170)), (940, 460))
+        screen.blit(font.render(f"{int(Boss1.get_attack())} Attack", 1, (170, 0, 0)), (940, 430))
+        screen.blit(font.render(f"{int(Boss1.get_defense())} Defense", 1, (0, 0, 170)), (940, 460))
         screen.blit(font.render(f"Level {Boss1.get_level()}", 1, (170, 0, 170)), (940, 490))
 
         screen.blit(player_name, player_pos)
         Knight1.draw_hp_bar(screen, 100, 300, 200, 25)
-        screen.blit(font.render(f"HP: {max(Knight1.get_hp(), 0)}", 1, (10, 10, 10)), (130, 300))
+        screen.blit(font.render(f"HP: {max(int(Knight1.get_hp()), 0)}", 1, (10, 10, 10)), (130, 300))
         screen.blit(font.render(f"XP: {XP_check2} /// {Player_XP_Thr}", 1, (0, 255, 0)), (100, 75))
         screen.blit(font.render(f"Stats", 1, (10, 10, 10)), (175, 400))
-        screen.blit(font.render(f"{Knight1.get_attack()} Attack", 1, (170, 0, 0)), (140, 430))
-        screen.blit(font.render(f"{Knight1.get_defense()} Defense", 1, (0, 0, 170)), (140, 460))
+        screen.blit(font.render(f"{int(Knight1.get_attack())} Attack", 1, (170, 0, 0)), (140, 430))
+        screen.blit(font.render(f"{int(Knight1.get_defense())} Defense", 1, (0, 0, 170)), (140, 460))
         screen.blit(font.render(f"Level {Knight1.get_level()}", 1, (170, 0, 170)), (140, 490))
         screen.blit(img_player, (100, 100))
 
@@ -163,7 +163,7 @@ def main():
 
         pygame.display.flip()
         dt = clock.tick(60)
-        print(Boss1.get_hp())
+
         if Boss1.get_hp() <= 0:
             screen.blit(font.render(f"{Knight1.get_name()} has defeated {Boss1.get_name()} !", 1, (0, 255, 0)), (200, 690))
             screen.blit(font.render(f"Gained {int((Boss1.get_xp() * Scale))} XP!", 1, (0, 255, 0)), (200, 720))
