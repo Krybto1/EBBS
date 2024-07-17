@@ -182,7 +182,7 @@ def main():
                 Rarity_Choice = misc2.rarity_tiers[0]
                 Scale = 1
                 Boss1.set_name(f"{Rarity_Choice} {random.choice(misc2.enemies)}")
-            boss_index = misc2.enemies.index(Boss1.get_name())
+            boss_index = misc2.enemies.index(Boss1.get_name().split(maxsplit=1)[1])
             if os.path.exists(misc2.enemies_png[boss_index]):
                 img_enemy = pygame.image.load(misc2.enemies_png[boss_index])
             else:
