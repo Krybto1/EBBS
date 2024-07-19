@@ -26,7 +26,8 @@ def main():
     pygame.init()
     font_loader = "C:/Windows/Fonts/Calibri.ttf"
     Boss_Choices = ("Attack", "Defend", "Sleep")
-    img_enemy = pygame.image.load("img/goblin_test.jpg")
+    img_enemy = pygame.image.load("img/Goblin_Test.jpg")
+
     font = pygame.font.Font(font_loader, 27)
     Atk_Button = misc2.Button(500, 100, 150, 50, "Attack", (170, 0, 0), (200, 100, 0))
     Def_Button = misc2.Button(500, 175, 150, 50, "Defend", (0, 0, 170), (0, 100, 200))
@@ -40,7 +41,7 @@ def main():
 
         player_name = font.render(Knight1.get_name(), 1, (10, 10, 10))
         player_pos = player_name.get_rect(centerx=200, centery=350)
-        img_player = pygame.image.load("img/player_img.jpg")
+        img_player = pygame.image.load("img/Player_Img.jpg")
         img_player = pygame.transform.scale(img_player, (200, 200))
         player_heal = (Knight1.get_level() * 5) * 1.5
         Player_XP_Thr = int((80 * Knight1.get_level()) ** 1.07)
@@ -106,12 +107,12 @@ def main():
             if Sleep_Button.is_clicked(event):
                 if Knight1.get_hp() == Knight1.get_max_hp():
                     screen.blit(font.render(f"{Knight1.get_name()} is already at max HP!", 1, (255, 0, 255)), (200, 600))
-                    print("Defendddding")
                 elif Knight1.get_hp() + player_heal > Knight1.get_max_hp():
                     Knight1.set_hp(Knight1.get_max_hp())
                     screen.blit(font.render(f"{Knight1.get_name()} sleeps but is almost at max HP!"
                                             f"Only healed for {(Knight1.get_hp() + player_heal) - Knight1.get_max_hp()}", 1, (255, 0, 255)), (200, 600))
                 else:
+                    screen.blit(font.render(f"{Knight1.get_name()} sleeps and heals for {player_heal} HP", 1, (255, 0, 255)), (200, 600))
                     Knight1.set_hp(Knight1.get_hp() + player_heal)
                 if boss_choice == "Defend":
                     screen.blit(font.render(f"{Boss1.get_name()} defends but there is no damage to block", 1, (0, 0, 255)), (200, 660))
@@ -182,11 +183,12 @@ def main():
                 Rarity_Choice = misc2.rarity_tiers[0]
                 Scale = 1
                 Boss1.set_name(f"{Rarity_Choice} {random.choice(misc2.enemies)}")
+
             boss_index = misc2.enemies.index(Boss1.get_name().split(maxsplit=1)[1])
             if os.path.exists(misc2.enemies_png[boss_index]):
                 img_enemy = pygame.image.load(misc2.enemies_png[boss_index])
             else:
-                img_enemy = pygame.image.load("img/goblin_test.jpg")
+                img_enemy = pygame.image.load("img/Goblin_Test.jpg")
             Boss1.set_max_hp(Scale)
             Boss1.set_hp(int(Boss1.get_hp() * Scale))
             Boss1.set_attack(int(Boss1.get_attack() * Scale))
@@ -194,8 +196,13 @@ def main():
             Kill_Count += 1
             Floor += 1
             Turn = 0
+        elif Knight1.get_hp() <= 0:
+            screen.blit(font.render(f"{Knight1.get_name()} has been defeated by {Boss1.get_name()} !", 1, (255, 0, 0)), (200, 690))
+            screen.blit(font.render(f"Killcount: {Kill_Count}           Game Over!", 1, (255, 0, 0)), (200, 720))
+            pygame.display.flip()
+            time.sleep(5)
+            running = False
         pygame.display.flip()
-
 
 
 if __name__ == "__main__": main()

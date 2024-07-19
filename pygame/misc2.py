@@ -59,7 +59,8 @@ enemies = [
     "Abyssal Devourer",
     "Netherworld Wraith"
 ]
-enemies_png = ["img/" + x.replace(" ", "_") + ".png" for x in enemies]
+
+enemies_png = ["img/" + x.replace(" ", "_") + ".jpg" for x in enemies]
 
 rarity_tiers = [
     "Common",
@@ -86,7 +87,7 @@ rarity_tiers = [
     "Unparalleled",
     "Untouchable",
     "Zenith",
-    "Supreme Legendary",
+    "Supreme-Legendary",
     "Divine",
     "Celestial",
     "Cosmic"
@@ -117,7 +118,7 @@ rarity_scale = {
     "Unparalleled": 2.16,
     "Untouchable": 2.21,
     "Zenith": 2.25,
-    "Supreme Legendary": 2.3,
+    "Supreme-Legendary": 2.3,
     "Divine": 2.35,
     "Celestial": 2.4,
     "Cosmic": 2.5

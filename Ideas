@@ -7,6 +7,7 @@ Ideas:
 #Inventory & Loot Drops
 #Equipment
 #Boss Abilities
+#Enemy Borders / Rarity
 
 Next up:
 #Crits & Crit Chance
@@ -18,9 +19,5 @@ Done:
 #Stat Scaling with Rarity
 
 
-import pygame
-from boss import Boss
-from boss import Knight
-import misc2
-import random
+
 
