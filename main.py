@@ -8,7 +8,7 @@ Turn = 0
 Floor = 1
 CharName = input("Enter your character name: ")
 Boss1 = Boss(f"{misc.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
-Knight1 = Knight(CharName, 100, 15, 10, 1, 0)
+Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 10)
 
 Base_Boss_HP = Boss1.get_hp()
 Base_Boss_ATK = Boss1.get_attack()
