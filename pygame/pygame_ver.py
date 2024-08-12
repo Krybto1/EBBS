@@ -9,7 +9,7 @@ import os
 
 
 CharName = input("Enter your character name: ")
-Knight1 = Knight(CharName, 100, 15, 10, 1, 0)
+Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 50)
 Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
 
 def main():
@@ -27,6 +27,12 @@ def main():
     font_loader = "C:/Windows/Fonts/Calibri.ttf"
     Boss_Choices = ("Attack", "Defend", "Sleep")
     img_enemy = pygame.image.load("img/Goblin_Test.jpg")
+    img_sword = pygame.image.load("img/Sword_Icon.png")
+    img_sword = pygame.transform.scale(img_sword, (75, 75))
+    img_shield = pygame.image.load("img/Shield_Icon.png")
+    img_shield = pygame.transform.scale(img_shield, (75, 75))
+    img_sleep = pygame.image.load("img/Sleep_Icon.png")
+    img_sleep = pygame.transform.scale(img_sleep, (75, 75))
 
     font = pygame.font.Font(font_loader, 27)
     Atk_Button = misc2.Button(500, 100, 150, 50, "Attack", (170, 0, 0), (200, 100, 0))
@@ -34,13 +40,14 @@ def main():
     Sleep_Button = misc2.Button(500, 250, 150, 50, "Sleep", (170, 0, 170), (200, 0, 200))
 
     while running:
+        crit_rdm = random.randint(1, 100)
         boss_name = font.render(Boss1.get_name(), 1, (10, 10, 10))
-        boss_pos = boss_name.get_rect(centerx=1000, centery=350)
+        boss_pos = boss_name.get_rect(centerx=1000, centery=375)
         img_enemy = pygame.transform.scale(img_enemy, (200, 200))
         boss_heal = (Boss1.get_level() * 2) * 1.5
 
         player_name = font.render(Knight1.get_name(), 1, (10, 10, 10))
-        player_pos = player_name.get_rect(centerx=200, centery=350)
+        player_pos = player_name.get_rect(centerx=200, centery=375)
         img_player = pygame.image.load("img/Player_Img.jpg")
         img_player = pygame.transform.scale(img_player, (200, 200))
         player_heal = (Knight1.get_level() * 5) * 1.5
@@ -58,34 +65,91 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if Atk_Button.is_clicked(event):
+                screen.blit(img_sword, (350, 175))
+                player_crit = 0
+                if crit_rdm <= Knight1.crit_chance:
+                    player_crit = True
                 if boss_choice == "Defend":
-                    screen.blit(font.render(f"{Knight1.get_name()} attacks {Boss1.get_name()} for {Knight1.get_attack() - Boss1.get_defense()} damage", 1, (255, 10, 10)), (200, 600))
-                    screen.blit(font.render(f"{Boss1.get_name()} defends and blocks {(Knight1.get_attack() - Boss1.get_defense()) / 2} damage", 1, (0, 0, 255)), (200, 630))
-                    Boss1.set_hp(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) / 2))
-                elif boss_choice == "Attack":
-                    screen.blit(font.render(f"{Knight1.get_name()} attacks {Boss1.get_name()} for {Knight1.get_attack() - Boss1.get_defense()} damage", 1, (255, 10, 10)), (200, 600))
-                    screen.blit(font.render(f"{Boss1.get_name()} attacks {Knight1.get_name()} for {Boss1.get_attack() - Knight1.get_defense()} damage", 1, (255, 0, 0)), (200, 630))
-                    Knight1.set_hp(Knight1.get_hp() - (Boss1.get_attack() - Knight1.get_defense()))
-                    Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
-                else:
-                    screen.blit(font.render(f"{Knight1.get_name()} attacks {Boss1.get_name()} for {Knight1.get_attack() - Boss1.get_defense()} damage", 1, (255, 10, 10)), (200, 600))
-                    if Boss1.get_hp() == Boss1.get_max_hp():
-                        screen.blit(font.render(f"{Boss1.get_name()} is already at max HP!", 1, (255, 0, 255)), (200, 660))
-                        Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
-                    elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
-                        Boss1.set_hp(Boss1.get_max_hp())
-                        screen.blit(font.render(f"{Boss1.get_name()} sleeps but is almost at max HP!"
-                                                f"Only healed for {(Boss1.get_hp() + boss_heal) - Boss1.get_max_hp() }", 1, (255, 0, 255)), (200, 660))
-                        Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
+                    screen.blit(img_shield, (725, 175))
+                    if player_crit:
+                        Boss1.set_hp(int(Boss1.get_hp() - (((Knight1.get_attack() - Boss1.get_defense()) / 2) * 1.75)))
+                        screen.blit(font.render(
+                            f"ITS A CRIT! {Knight1.get_name()} attacks {Boss1.get_name()} for {int(((Knight1.get_attack() - Boss1.get_defense()) / 2) * 1.75)} damage",
+                            1, (255, 10, 10)), (200, 600))
+                        screen.blit(font.render(
+                            f"{Boss1.get_name()} defends and blocks {int(((Knight1.get_attack() - Boss1.get_defense()) / 2) * 1.75)} damage",
+                            1, (0, 0, 255)), (200, 630))
                     else:
-                        Boss1.set_hp(Boss1.get_hp() + boss_heal)
-                        screen.blit(font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1, (255, 0, 255)), (200, 660))
+                        screen.blit(font.render(
+                            f"{Knight1.get_name()} attacks {Boss1.get_name()} for {Knight1.get_attack() - Boss1.get_defense()} damage",
+                            1, (255, 10, 10)), (200, 600))
+                        screen.blit(font.render(
+                            f"{Boss1.get_name()} defends and blocks {(Knight1.get_attack() - Boss1.get_defense()) / 2} damage",
+                            1, (0, 0, 255)), (200, 630))
+                        Boss1.set_hp(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) / 2))
+                elif boss_choice == "Attack":
+                    screen.blit(img_sword, (725, 175))
+                    Knight1.set_hp(Knight1.get_hp() - (Boss1.get_attack() - Knight1.get_defense()))
+                    if player_crit:
+                        Boss1.set_hp(int(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) * 1.75)))
+                        screen.blit(font.render(
+                            f"ITS A CRIT! {Knight1.get_name()} attacks {Boss1.get_name()} for {int((Knight1.get_attack() - Boss1.get_defense()) * 1.75)} damage",
+                            1, (255, 10, 10)), (200, 600))
+                        screen.blit(font.render(
+                            f"{Boss1.get_name()} attacks {Knight1.get_name()} for {Boss1.get_attack() - Knight1.get_defense()} damage",
+                            1, (255, 0, 0)), (200, 630))
+                    else:
+                        Knight1.set_hp(Knight1.get_hp() - (Boss1.get_attack() - Knight1.get_defense()))
                         Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
+                        screen.blit(font.render(
+                            f"{Knight1.get_name()} attacks {Boss1.get_name()} for {Knight1.get_attack() - Boss1.get_defense()} damage",
+                            1, (255, 10, 10)), (200, 600))
+                        screen.blit(font.render(
+                            f"{Boss1.get_name()} attacks {Knight1.get_name()} for {Boss1.get_attack() - Knight1.get_defense()} damage",
+                            1, (255, 0, 0)), (200, 630))
+                else:
+                    screen.blit(img_sleep, (725, 175))
+                    if player_crit:
+                        screen.blit(font.render(
+                            f"ITS A CRIT! {Knight1.get_name()} attacks {Boss1.get_name()} for {int(((Knight1.get_attack() - Boss1.get_defense()) * 1.75))} damage",
+                            1, (255, 10, 10)), (200, 600))
+                        if Boss1.get_hp() == Boss1.get_max_hp():
+                            screen.blit(font.render(f"{Boss1.get_name()} is already at max HP!", 1, (255, 0, 255)),
+                                        (200, 660))
+                            Boss1.set_hp(int(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) * 1.75)))
+                        elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
+                            Boss1.set_hp(Boss1.get_max_hp())
+                            screen.blit(font.render(f"{Boss1.get_name()} sleeps but is almost at max HP!"
+                                                    f"Only healed for {(Boss1.get_hp() + boss_heal) - Boss1.get_max_hp()}",
+                                                    1, (255, 0, 255)), (200, 660))
+                            Boss1.set_hp(int(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) * 1.75)))
+                        else:
+                            Boss1.set_hp(Boss1.get_hp() + boss_heal)
+                            screen.blit(font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1,
+                                                    (255, 0, 255)), (200, 660))
+                            Boss1.set_hp(int(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) * 1.75)))
+                    else:
+                        screen.blit(font.render(f"{Knight1.get_name()} attacks {Boss1.get_name()} for {Knight1.get_attack() - Boss1.get_defense()} damage", 1, (255, 10, 10)), (200, 600))
+                        if Boss1.get_hp() == Boss1.get_max_hp():
+                            screen.blit(font.render(f"{Boss1.get_name()} is already at max HP!", 1, (255, 0, 255)), (200, 660))
+                            Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
+                        elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
+                            Boss1.set_hp(Boss1.get_max_hp())
+                            screen.blit(font.render(f"{Boss1.get_name()} sleeps but is almost at max HP!"
+                                                    f"Only healed for {(Boss1.get_hp() + boss_heal) - Boss1.get_max_hp() }", 1, (255, 0, 255)), (200, 660))
+                            Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
+                        else:
+                            Boss1.set_hp(Boss1.get_hp() + boss_heal)
+                            screen.blit(font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1, (255, 0, 255)), (200, 660))
+                            Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
 
             if Def_Button.is_clicked(event):
+                screen.blit(img_shield, (350, 175))
                 if boss_choice == "Defend":
+                    screen.blit(img_shield, (725, 175))
                     screen.blit(font.render(f"{Knight1.get_name()} and {Boss1.get_name()} both defend", 1, (0, 0, 255)), (200, 600))
                 elif boss_choice == "Sleep":
+                    screen.blit(img_sleep, (725, 175))
                     screen.blit(font.render(f"{Knight1.get_name()} defends but there is no damage to block", 1, (0, 0, 255)), (200, 600))
                     screen.blit(font.render(f"{Boss1.get_name()} is sleeping", 1, (0, 0, 255)), (200, 630))
                     boss_heal = (Boss1.get_level() * 2) * 1.5
@@ -100,11 +164,13 @@ def main():
                         screen.blit(font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1, (255, 0, 255)), (200, 660))
 
                 else:
+                    screen.blit(img_sword, (725, 175))
                     screen.blit(font.render(f"{Knight1.get_name()} defends and blocks {(Boss1.get_attack() - Knight1.get_defense()) / 2} damage", 1, (0, 0, 255)), (200, 600))
                     screen.blit(font.render(f"{Boss1.get_name()} attacks {Knight1.get_name()} for {(Boss1.get_attack() - Knight1.get_defense())} damage", 1, (255, 0, 0)), (200, 630))
                     Knight1.set_hp(Knight1.get_hp() - ((Boss1.get_attack() - Knight1.get_defense()) / 2))
 
             if Sleep_Button.is_clicked(event):
+                screen.blit(img_sleep, (350, 175))
                 if Knight1.get_hp() == Knight1.get_max_hp():
                     screen.blit(font.render(f"{Knight1.get_name()} is already at max HP!", 1, (255, 0, 255)), (200, 600))
                 elif Knight1.get_hp() + player_heal > Knight1.get_max_hp():
@@ -115,11 +181,14 @@ def main():
                     screen.blit(font.render(f"{Knight1.get_name()} sleeps and heals for {player_heal} HP", 1, (255, 0, 255)), (200, 600))
                     Knight1.set_hp(Knight1.get_hp() + player_heal)
                 if boss_choice == "Defend":
+                    screen.blit(img_shield, (725, 175))
                     screen.blit(font.render(f"{Boss1.get_name()} defends but there is no damage to block", 1, (0, 0, 255)), (200, 660))
                 elif boss_choice == "Attack":
+                    screen.blit(img_sword, (725, 175))
                     screen.blit(font.render(f"{Boss1.get_name()} attacks {Knight1.get_name()} for {Boss1.get_attack() - Knight1.get_defense()} damage", 1, (255, 0, 0)), (200, 660))
                     Knight1.set_hp(Knight1.get_hp() - (Boss1.get_attack() - Knight1.get_defense()))
                 else:
+                    screen.blit(img_sleep, (725, 175))
                     if Boss1.get_hp() == Boss1.get_max_hp():
                         screen.blit(font.render(f"{Boss1.get_name()} is already at max HP!", 1, (255, 0, 255)),
                                     (200, 660))
@@ -144,19 +213,20 @@ def main():
         screen.blit(img_enemy, (900, 100))
         Boss1.draw_hp_bar(screen, 900, 300, 200, 25)
         screen.blit(font.render(f"HP: {max(int(Boss1.get_hp()), 0)}", 1, (10, 10, 10)), (930, 300))
-        screen.blit(font.render(f"Stats", 1, (10, 10, 10)), (975, 400))
-        screen.blit(font.render(f"{int(Boss1.get_attack())} Attack", 1, (170, 0, 0)), (940, 430))
-        screen.blit(font.render(f"{int(Boss1.get_defense())} Defense", 1, (0, 0, 170)), (940, 460))
-        screen.blit(font.render(f"Level {Boss1.get_level()}", 1, (170, 0, 170)), (940, 490))
+        screen.blit(font.render(f"Stats", 1, (10, 10, 10)), (900, 400))
+        screen.blit(font.render(f"Attack: {int(Boss1.get_attack())}", 1, (170, 0, 0)), (900, 430))
+        screen.blit(font.render(f"Defense: {int(Boss1.get_defense())}", 1, (0, 0, 170)), (900, 460))
+        screen.blit(font.render(f"Level: {Boss1.get_level()}", 1, (170, 0, 170)), (900, 490))
 
         screen.blit(player_name, player_pos)
         Knight1.draw_hp_bar(screen, 100, 300, 200, 25)
         screen.blit(font.render(f"HP: {max(int(Knight1.get_hp()), 0)}", 1, (10, 10, 10)), (130, 300))
-        screen.blit(font.render(f"XP: {XP_check2} /// {Player_XP_Thr}", 1, (0, 255, 0)), (100, 75))
-        screen.blit(font.render(f"Stats", 1, (10, 10, 10)), (175, 400))
-        screen.blit(font.render(f"{int(Knight1.get_attack())} Attack", 1, (170, 0, 0)), (140, 430))
-        screen.blit(font.render(f"{int(Knight1.get_defense())} Defense", 1, (0, 0, 170)), (140, 460))
-        screen.blit(font.render(f"Level {Knight1.get_level()}", 1, (170, 0, 170)), (140, 490))
+        screen.blit(font.render(f"XP: {XP_check2} /// {Player_XP_Thr}", 1, (0, 255, 0)), (100, 325))
+        screen.blit(font.render(f"Stats", 1, (10, 10, 10)), (100, 400))
+        screen.blit(font.render(f"Attack: {int(Knight1.get_attack())}", 1, (170, 0, 0)), (100, 430))
+        screen.blit(font.render(f"Defense: {int(Knight1.get_defense())}", 1, (0, 0, 170)), (100, 460))
+        screen.blit(font.render(f"Level: {Knight1.get_level()}", 1, (170, 0, 170)), (100, 490))
+        screen.blit(font.render(f"Crit Chance: {Knight1.get_crit_chance()}%", 1, (255, 0, 255)), (100, 520))
         screen.blit(img_player, (100, 100))
 
         Atk_Button.draw(screen)
