@@ -146,4 +146,3 @@ while Knight1.get_hp() >= 0:
 
 print(f"{misc.BRIGHT_RED} Game Over {misc.RESET} \nYou have defeated {Kill_Count} bosses")
 
-# TODO: Save Game Progress
