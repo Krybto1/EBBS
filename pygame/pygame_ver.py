@@ -9,7 +9,7 @@ import os
 
 
 CharName = input("Enter your character name: ")
-Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 50)
+Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 10)
 Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
 
 def main():
@@ -33,6 +33,7 @@ def main():
     img_shield = pygame.transform.scale(img_shield, (75, 75))
     img_sleep = pygame.image.load("img/Sleep_Icon.png")
     img_sleep = pygame.transform.scale(img_sleep, (75, 75))
+    bg_line = pygame.image.load("img/Bg_Line.png")
 
     font = pygame.font.Font(font_loader, 27)
     Atk_Button = misc2.Button(500, 100, 150, 50, "Attack", (170, 0, 0), (200, 100, 0))
@@ -40,6 +41,7 @@ def main():
     Sleep_Button = misc2.Button(500, 250, 150, 50, "Sleep", (170, 0, 170), (200, 0, 200))
 
     while running:
+        screen.blit(bg_line, (0, 590))
         crit_rdm = random.randint(1, 100)
         boss_name = font.render(Boss1.get_name(), 1, (10, 10, 10))
         boss_pos = boss_name.get_rect(centerx=1000, centery=375)
@@ -49,6 +51,8 @@ def main():
         player_name = font.render(Knight1.get_name(), 1, (10, 10, 10))
         player_pos = player_name.get_rect(centerx=200, centery=375)
         img_player = pygame.image.load("img/Player_Img.jpg")
+        bg_line = pygame.transform.scale(bg_line, (screen.get_width(), 2))
+
         img_player = pygame.transform.scale(img_player, (200, 200))
         player_heal = (Knight1.get_level() * 5) * 1.5
         Player_XP_Thr = int((80 * Knight1.get_level()) ** 1.07)
@@ -115,32 +119,32 @@ def main():
                             1, (255, 10, 10)), (200, 600))
                         if Boss1.get_hp() == Boss1.get_max_hp():
                             screen.blit(font.render(f"{Boss1.get_name()} is already at max HP!", 1, (255, 0, 255)),
-                                        (200, 660))
+                                        (200, 630))
                             Boss1.set_hp(int(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) * 1.75)))
                         elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
                             Boss1.set_hp(Boss1.get_max_hp())
                             screen.blit(font.render(f"{Boss1.get_name()} sleeps but is almost at max HP!"
                                                     f"Only healed for {(Boss1.get_hp() + boss_heal) - Boss1.get_max_hp()}",
-                                                    1, (255, 0, 255)), (200, 660))
+                                                    1, (255, 0, 255)), (200, 630))
                             Boss1.set_hp(int(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) * 1.75)))
                         else:
                             Boss1.set_hp(Boss1.get_hp() + boss_heal)
                             screen.blit(font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1,
-                                                    (255, 0, 255)), (200, 660))
+                                                    (255, 0, 255)), (200, 630))
                             Boss1.set_hp(int(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) * 1.75)))
                     else:
                         screen.blit(font.render(f"{Knight1.get_name()} attacks {Boss1.get_name()} for {Knight1.get_attack() - Boss1.get_defense()} damage", 1, (255, 10, 10)), (200, 600))
                         if Boss1.get_hp() == Boss1.get_max_hp():
-                            screen.blit(font.render(f"{Boss1.get_name()} is already at max HP!", 1, (255, 0, 255)), (200, 660))
+                            screen.blit(font.render(f"{Boss1.get_name()} is already at max HP!", 1, (255, 0, 255)), (200, 630))
                             Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
                         elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
                             Boss1.set_hp(Boss1.get_max_hp())
                             screen.blit(font.render(f"{Boss1.get_name()} sleeps but is almost at max HP!"
-                                                    f"Only healed for {(Boss1.get_hp() + boss_heal) - Boss1.get_max_hp() }", 1, (255, 0, 255)), (200, 660))
+                                                    f"Only healed for {(Boss1.get_hp() + boss_heal) - Boss1.get_max_hp() }", 1, (255, 0, 255)), (200, 630))
                             Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
                         else:
                             Boss1.set_hp(Boss1.get_hp() + boss_heal)
-                            screen.blit(font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1, (255, 0, 255)), (200, 660))
+                            screen.blit(font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1, (255, 0, 255)), (200, 630))
                             Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
 
             if Def_Button.is_clicked(event):
@@ -151,17 +155,17 @@ def main():
                 elif boss_choice == "Sleep":
                     screen.blit(img_sleep, (725, 175))
                     screen.blit(font.render(f"{Knight1.get_name()} defends but there is no damage to block", 1, (0, 0, 255)), (200, 600))
-                    screen.blit(font.render(f"{Boss1.get_name()} is sleeping", 1, (0, 0, 255)), (200, 630))
+                    #screen.blit(font.render(f"{Boss1.get_name()} is sleeping", 1, (255, 0, 255)), (200, 630))
                     boss_heal = (Boss1.get_level() * 2) * 1.5
                     if Boss1.get_hp() == Boss1.get_max_hp():
-                        screen.blit(font.render(f"{Boss1.get_name()} is already at max HP!", 1, (255, 0, 255)), (200, 660))
+                        screen.blit(font.render(f"{Boss1.get_name()} is already at max HP!", 1, (255, 0, 255)), (200, 630))
                     elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
                         Boss1.set_hp(Boss1.get_max_hp())
                         screen.blit(font.render(f"{Boss1.get_name()} sleeps but is almost at max HP!"
-                                                f"Only healed for {(Boss1.get_hp() + boss_heal) - Boss1.get_max_hp() }", 1, (255, 0, 255)), (200, 660))
+                                                f"Only healed for {(Boss1.get_hp() + boss_heal) - Boss1.get_max_hp() }", 1, (255, 0, 255)), (200, 630))
                     else:
                         Boss1.set_hp(Boss1.get_hp() + boss_heal)
-                        screen.blit(font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1, (255, 0, 255)), (200, 660))
+                        screen.blit(font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1, (255, 0, 255)), (200, 630))
 
                 else:
                     screen.blit(img_sword, (725, 175))
@@ -182,26 +186,26 @@ def main():
                     Knight1.set_hp(Knight1.get_hp() + player_heal)
                 if boss_choice == "Defend":
                     screen.blit(img_shield, (725, 175))
-                    screen.blit(font.render(f"{Boss1.get_name()} defends but there is no damage to block", 1, (0, 0, 255)), (200, 660))
+                    screen.blit(font.render(f"{Boss1.get_name()} defends but there is no damage to block", 1, (0, 0, 255)), (200, 630))
                 elif boss_choice == "Attack":
                     screen.blit(img_sword, (725, 175))
-                    screen.blit(font.render(f"{Boss1.get_name()} attacks {Knight1.get_name()} for {Boss1.get_attack() - Knight1.get_defense()} damage", 1, (255, 0, 0)), (200, 660))
+                    screen.blit(font.render(f"{Boss1.get_name()} attacks {Knight1.get_name()} for {Boss1.get_attack() - Knight1.get_defense()} damage", 1, (255, 0, 0)), (200, 630))
                     Knight1.set_hp(Knight1.get_hp() - (Boss1.get_attack() - Knight1.get_defense()))
                 else:
                     screen.blit(img_sleep, (725, 175))
                     if Boss1.get_hp() == Boss1.get_max_hp():
                         screen.blit(font.render(f"{Boss1.get_name()} is already at max HP!", 1, (255, 0, 255)),
-                                    (200, 660))
+                                    (200, 630))
                     elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
                         Boss1.set_hp(Boss1.get_max_hp())
                         screen.blit(font.render(f"{Boss1.get_name()} sleeps but is almost at max HP!"
                                                 f"Only healed for {(Boss1.get_hp() + boss_heal) - Boss1.get_max_hp()}",
-                                                1, (255, 0, 255)), (200, 660))
+                                                1, (255, 0, 255)), (200, 630))
                     else:
                         Boss1.set_hp(Boss1.get_hp() + boss_heal)
                         screen.blit(
                             font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1, (255, 0, 255)),
-                            (200, 660))
+                            (200, 630))
 
             pygame.display.flip()
 
