@@ -12,6 +12,40 @@ CharName = input("Enter your character name: ")
 Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 10)
 Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
 
+
+import time
+import pygame
+import random
+
+import time
+import pygame
+import random
+
+
+import time
+import pygame
+import random
+
+def shake_image(screen, image, position, shake_intensity, shake_duration, bg_color):
+    end_time = time.time() + shake_duration
+    original_position = position
+    image_rect = image.get_rect(topleft=original_position)
+
+    while time.time() < end_time:
+        offset_x = random.randint(-shake_intensity, shake_intensity)
+        new_position = (original_position[0] + offset_x, original_position[1])
+
+        # Fill the old position with the background color
+        screen.fill(bg_color, image_rect)
+
+        # Draw the image at the new position
+        screen.blit(image, new_position)
+        pygame.display.flip()
+        time.sleep(0.05)
+
+        # Update the image_rect to the new position
+        image_rect.topleft = new_position
+
 def main():
     screen = pygame.display.set_mode((1200, 800))
     pygame.display.set_caption("Epic Boss Battle Simulator")
@@ -102,6 +136,8 @@ def main():
                         screen.blit(font.render(
                             f"{Boss1.get_name()} attacks {Knight1.get_name()} for {Boss1.get_attack() - Knight1.get_defense()} damage",
                             1, (255, 0, 0)), (200, 630))
+                        shake_image(screen, img_player, (100, 100), shake_intensity=10, shake_duration=0.5,
+                                    bg_color=(230, 230, 230))
                     else:
                         Knight1.set_hp(Knight1.get_hp() - (Boss1.get_attack() - Knight1.get_defense()))
                         Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
@@ -111,6 +147,8 @@ def main():
                         screen.blit(font.render(
                             f"{Boss1.get_name()} attacks {Knight1.get_name()} for {Boss1.get_attack() - Knight1.get_defense()} damage",
                             1, (255, 0, 0)), (200, 630))
+                        shake_image(screen, img_player, (100, 100), shake_intensity=10, shake_duration=0.5,
+                                    bg_color=(230, 230, 230))
                 else:
                     screen.blit(img_sleep, (725, 175))
                     if player_crit:
@@ -146,7 +184,8 @@ def main():
                             Boss1.set_hp(Boss1.get_hp() + boss_heal)
                             screen.blit(font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1, (255, 0, 255)), (200, 630))
                             Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
-
+                shake_image(screen, img_enemy, (900, 100), shake_intensity=10, shake_duration=0.5,
+                            bg_color=(230, 230, 230))
             if Def_Button.is_clicked(event):
                 screen.blit(img_shield, (350, 175))
                 if boss_choice == "Defend":
@@ -172,7 +211,7 @@ def main():
                     screen.blit(font.render(f"{Knight1.get_name()} defends and blocks {(Boss1.get_attack() - Knight1.get_defense()) / 2} damage", 1, (0, 0, 255)), (200, 600))
                     screen.blit(font.render(f"{Boss1.get_name()} attacks {Knight1.get_name()} for {(Boss1.get_attack() - Knight1.get_defense())} damage", 1, (255, 0, 0)), (200, 630))
                     Knight1.set_hp(Knight1.get_hp() - ((Boss1.get_attack() - Knight1.get_defense()) / 2))
-
+                    shake_image(screen, img_player, (100, 100), shake_intensity=10, shake_duration=0.5, bg_color=(230, 230, 230))
             if Sleep_Button.is_clicked(event):
                 screen.blit(img_sleep, (350, 175))
                 if Knight1.get_hp() == Knight1.get_max_hp():
@@ -191,6 +230,7 @@ def main():
                     screen.blit(img_sword, (725, 175))
                     screen.blit(font.render(f"{Boss1.get_name()} attacks {Knight1.get_name()} for {Boss1.get_attack() - Knight1.get_defense()} damage", 1, (255, 0, 0)), (200, 630))
                     Knight1.set_hp(Knight1.get_hp() - (Boss1.get_attack() - Knight1.get_defense()))
+                    shake_image(screen, img_player, (100, 100), shake_intensity=10, shake_duration=0.5, bg_color=(230, 230, 230))
                 else:
                     screen.blit(img_sleep, (725, 175))
                     if Boss1.get_hp() == Boss1.get_max_hp():
