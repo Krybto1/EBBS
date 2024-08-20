@@ -63,7 +63,7 @@ class Boss:
         pygame.draw.rect(screen, (0, 255, 0), (x, y, hp_width, height))
 
 class Knight:
-    def __init__(self, name, hp, atk, defense, level, xp, crit_chance):
+    def __init__(self, name, hp, atk, defense, level, xp, crit_chance, gold):
         self.name = name
         self.hp = hp
         self.atk = atk
@@ -71,6 +71,7 @@ class Knight:
         self.level = level
         self.xp = xp
         self.crit_chance = crit_chance
+        self.gold = gold
 
     def get_name(self):
         return self.name
@@ -107,6 +108,13 @@ class Knight:
 
     def set_crit_chance(self, crit_chance):
         self.crit_chance = crit_chance
+
+
+    def get_gold(self):
+        return self.gold
+
+    def set_gold(self, gold):
+        self.gold = gold
 
     def level_up(self):
         self.level += 1

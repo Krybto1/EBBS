@@ -9,7 +9,7 @@ import os
 
 
 CharName = input("Enter your character name: ")
-Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 10)
+Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 10, 0)
 Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
 
 
@@ -46,8 +46,27 @@ def shake_image(screen, image, position, shake_intensity, shake_duration, bg_col
         # Update the image_rect to the new position
         image_rect.topleft = new_position
 
+def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button, bg_line):
+    shop_active = True
+    while shop_active:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if Shop_Exit_Button.is_clicked(event):
+                shop_active = False
+
+        shop_screen.fill((230, 230, 230))
+        shop_screen.blit(font.render(f"Welcome to the Shop!", 1, (10, 10, 10)), (500, 40))
+        shop_screen.blit(font.render(f"Current Gold: {Knight1.get_gold()}", 1, (10, 10, 10)), (500, 80))
+        Shop_Exit_Button.draw(shop_screen)
+        screen.blit(shop_screen, (0, 0))
+        shop_screen.blit(bg_line, (0, 590))
+        pygame.display.flip()
+
 def main():
     screen = pygame.display.set_mode((1200, 800))
+    shop_screen = pygame.display.set_mode((1200, 800))
     pygame.display.set_caption("Epic Boss Battle Simulator")
     clock = pygame.time.Clock()
     running = True
@@ -56,6 +75,7 @@ def main():
     Floor = 1
     Kill_Count = 0
     Scale = 1
+    shop_active = False
 
     pygame.init()
     font_loader = "C:/Windows/Fonts/Calibri.ttf"
@@ -68,11 +88,15 @@ def main():
     img_sleep = pygame.image.load("img/Sleep_Icon.png")
     img_sleep = pygame.transform.scale(img_sleep, (75, 75))
     bg_line = pygame.image.load("img/Bg_Line.png")
+    img_gold = pygame.image.load("img/Gold_Icon.jpg")
+    img_gold = pygame.transform.scale(img_gold, (50, 50))
 
     font = pygame.font.Font(font_loader, 27)
     Atk_Button = misc2.Button(500, 100, 150, 50, "Attack", (170, 0, 0), (200, 100, 0))
     Def_Button = misc2.Button(500, 175, 150, 50, "Defend", (0, 0, 170), (0, 100, 200))
     Sleep_Button = misc2.Button(500, 250, 150, 50, "Sleep", (170, 0, 170), (200, 0, 200))
+    Shop_Button = misc2.Button(1050, 530, 150, 50, "Shop", (255, 255, 0), (255, 255, 100))
+    Shop_Exit_Button = misc2.Button(1050, 600, 150, 50, "Exit", (0, 255, 0), (0, 255, 100))
 
     while running:
         screen.blit(bg_line, (0, 590))
@@ -102,6 +126,8 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
+            if Shop_Button.is_clicked(event):
+                enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button, bg_line)
             if Atk_Button.is_clicked(event):
                 screen.blit(img_sword, (350, 175))
                 player_crit = 0
@@ -194,7 +220,6 @@ def main():
                 elif boss_choice == "Sleep":
                     screen.blit(img_sleep, (725, 175))
                     screen.blit(font.render(f"{Knight1.get_name()} defends but there is no damage to block", 1, (0, 0, 255)), (200, 600))
-                    #screen.blit(font.render(f"{Boss1.get_name()} is sleeping", 1, (255, 0, 255)), (200, 630))
                     boss_heal = (Boss1.get_level() * 2) * 1.5
                     if Boss1.get_hp() == Boss1.get_max_hp():
                         screen.blit(font.render(f"{Boss1.get_name()} is already at max HP!", 1, (255, 0, 255)), (200, 630))
@@ -271,19 +296,23 @@ def main():
         screen.blit(font.render(f"Defense: {int(Knight1.get_defense())}", 1, (0, 0, 170)), (100, 460))
         screen.blit(font.render(f"Level: {Knight1.get_level()}", 1, (170, 0, 170)), (100, 490))
         screen.blit(font.render(f"Crit Chance: {Knight1.get_crit_chance()}%", 1, (255, 0, 255)), (100, 520))
+        screen.blit(font.render(f"Gold: {Knight1.get_gold()}", 1, (230, 230, 80)), (100, 550))
         screen.blit(img_player, (100, 100))
 
         Atk_Button.draw(screen)
         Def_Button.draw(screen)
         Sleep_Button.draw(screen)
+        Shop_Button.draw(screen)
 
         pygame.display.flip()
         dt = clock.tick(60)
 
         if Boss1.get_hp() <= 0:
             screen.blit(font.render(f"{Knight1.get_name()} has defeated {Boss1.get_name()} !", 1, (0, 255, 0)), (200, 690))
-            screen.blit(font.render(f"Gained {int((Boss1.get_xp() * Scale))} XP!", 1, (0, 255, 0)), (200, 720))
+            screen.blit(font.render(f"Gained {int((Boss1.get_xp() * Scale))} XP and {int((7 * Floor) * Scale)} Gold!", 1, (0, 255, 0)), (200, 720))
             Knight1.set_xp(int(Knight1.get_xp() + (Boss1.get_xp() * Scale)))
+            get_gold = Knight1.get_gold()
+            Knight1.set_gold(int(get_gold + ((7 * Floor) * Scale)))
             Boss1.kill()
             if Floor > 5:
                 Rarity_Choice = random.choices(misc2.rarity_tiers,
