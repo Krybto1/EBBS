@@ -127,3 +127,58 @@ class Knight:
         hp_width = self.hp / self.get_max_hp() * width
         pygame.draw.rect(screen, (0, 255, 0), (x, y, hp_width, height))
 
+
+class ShopItem:
+    def __init__(self, name, price, atk, defense, crit_chance, hp, goldgain, rect, hovertext):
+        self.name = name
+        self.price = price
+        self.atk = atk
+        self.defense = defense
+        self.crit_chance = crit_chance
+        self.hp = hp
+        self.goldgain = goldgain
+        self.rect = rect
+        self.hovertext = hovertext
+
+    def draw(self, screen, font):
+        pygame.draw.rect(screen, (120, 120, 0), self.rect)
+        screen.blit(font.render(self.name, 1, (10, 10, 10)), (self.rect.x + 10, self.rect.y + 10))
+        screen.blit(font.render(f"Price: {self.price}", 1, (10, 10, 10)), (self.rect.x + 10, self.rect.y + 40))
+
+    def draw_hover_text(self, screen, font, mouse_pos):
+        #hover_text = f"{self.name}: {self.price} gold"
+        text_surface = font.render(self.hovertext, True, (255, 255, 255))
+        text_rect = text_surface.get_rect()
+        text_rect.topleft = (mouse_pos[0] + 10, mouse_pos[1] + 10)
+        pygame.draw.rect(screen, (0, 0, 0), text_rect.inflate(10, 10))
+        screen.blit(text_surface, text_rect)
+
+def draw_shop_items(screen, items, font, start_position, box_size, spacing):
+    x, y = start_position
+    shop_item_objects = []
+    for index, item in enumerate(items):
+        rect = pygame.Rect(x, y, box_size[0], box_size[1])
+        shop_item = ShopItem(item['name'], item['price'], item['atk'], item['defense'], item['crit_chance'], item['hp'], item['goldgain'], rect, item['hovertext'])
+        shop_item.draw(screen, font)
+        shop_item_objects.append(shop_item)
+        x += box_size[0] + spacing
+        if (index + 1) % 5 == 0:
+            x = start_position[0]
+            y += box_size[1] + spacing
+    return shop_item_objects
+
+def handle_shop_click(shop_items, event, Knight1):
+    for item in shop_items:
+        if item.rect.collidepoint(event.pos):
+            if Knight1.get_gold() >= item.price:
+                Knight1.set_gold(Knight1.get_gold() - item.price)
+                print(f"Bought {item.name} for {item.price} gold.")
+            else:
+                print("Not enough gold!")
+
+
+def handle_shop_hover(shop_items, screen, font, mouse_pos):
+    for item in shop_items:
+        if item.rect.collidepoint(mouse_pos):
+            item.draw_hover_text(screen, font, mouse_pos)
+            break

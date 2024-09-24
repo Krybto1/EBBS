@@ -1,30 +1,17 @@
 import time
-
 import pygame
-from boss import Boss
-from boss import Knight
+from Classes import Boss
+from Classes import Knight
+import Classes
 import misc2
 import random
 import os
 
 
 CharName = input("Enter your character name: ")
-Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 10, 0)
+Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 10, 1000)
 Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
 
-
-import time
-import pygame
-import random
-
-import time
-import pygame
-import random
-
-
-import time
-import pygame
-import random
 
 def shake_image(screen, image, position, shake_intensity, shake_duration, bg_color):
     end_time = time.time() + shake_duration
@@ -46,20 +33,43 @@ def shake_image(screen, image, position, shake_intensity, shake_duration, bg_col
         # Update the image_rect to the new position
         image_rect.topleft = new_position
 
+
 def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button, bg_line):
     shop_active = True
+    shop_items = [
+        {"name": "Stick", "price": 150, "atk": 1.2, "defense": 0, "crit_chance": 5, "hp": 0, "goldgain": 0, "hovertext": "A stick that gives you x1.2 attack and +5% crit chance"},
+        {"name": "Slot 2", "price": 150, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
+        {"name": "Slot 3", "price": 50, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
+        {"name": "Slot 4", "price": 75, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
+        {"name": "Slot 5", "price": 200, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
+        {"name": "Slot 6", "price": 60, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
+        {"name": "Slot 7", "price": 120, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
+        {"name": "Slot 8", "price": 180, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
+        {"name": "Slot 9", "price": 90, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
+        {"name": "Slot 10", "price": 110, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"}
+    ]
     while shop_active:
+        mouse_pos = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 exit()
             if Shop_Exit_Button.is_clicked(event):
                 shop_active = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                Classes.handle_shop_click(shop_item_objects, event, Knight1)
 
         shop_screen.fill((230, 230, 230))
         shop_screen.blit(font.render(f"Welcome to the Shop!", 1, (10, 10, 10)), (500, 40))
         shop_screen.blit(font.render(f"Current Gold: {Knight1.get_gold()}", 1, (10, 10, 10)), (500, 80))
         Shop_Exit_Button.draw(shop_screen)
+
+        # Draw background boxes for shop items
+        shop_item_objects = Classes.draw_shop_items(shop_screen, shop_items, font, (100, 150), (150, 150), 50)
+
+        # Handle hover text
+        Classes.handle_shop_hover(shop_item_objects, shop_screen, font, mouse_pos)
+
         screen.blit(shop_screen, (0, 0))
         shop_screen.blit(bg_line, (0, 590))
         pygame.display.flip()
@@ -75,6 +85,7 @@ def main():
     Floor = 1
     Kill_Count = 0
     Scale = 1
+    ItemsBonus = 0
     shop_active = False
 
     pygame.init()
@@ -292,7 +303,7 @@ def main():
         screen.blit(font.render(f"HP: {max(int(Knight1.get_hp()), 0)}", 1, (10, 10, 10)), (130, 300))
         screen.blit(font.render(f"XP: {XP_check2} /// {Player_XP_Thr}", 1, (0, 255, 0)), (100, 325))
         screen.blit(font.render(f"Stats", 1, (10, 10, 10)), (100, 400))
-        screen.blit(font.render(f"Attack: {int(Knight1.get_attack())}", 1, (170, 0, 0)), (100, 430))
+        screen.blit(font.render(f"Attack: {int(Knight1.get_attack() + ItemsBonus)}", 1, (170, 0, 0)), (100, 430))
         screen.blit(font.render(f"Defense: {int(Knight1.get_defense())}", 1, (0, 0, 170)), (100, 460))
         screen.blit(font.render(f"Level: {Knight1.get_level()}", 1, (170, 0, 170)), (100, 490))
         screen.blit(font.render(f"Crit Chance: {Knight1.get_crit_chance()}%", 1, (255, 0, 255)), (100, 520))

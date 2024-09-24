@@ -1,8 +1,8 @@
 import random
 import time
 import misc
-from boss import Boss
-from boss import Knight
+from Classes import Boss
+from Classes import Knight
 
 Turn = 0
 Floor = 1
