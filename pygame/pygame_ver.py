@@ -6,6 +6,7 @@ import misc2
 import random
 import os
 import loader
+import re
 
 shop_items = loader.load("items.json")
 
@@ -84,6 +85,9 @@ def main():
     Scale = 1
     ItemsBonus = 0
     shop_active = False
+    action_colors = {"attack": (255, 0, 0),
+                     "sleep": (0, 200, 160),
+                     "defend": (0, 0, 255)}
 
 
     font_loader = "C:/Windows/Fonts/Calibri.ttf"
@@ -199,7 +203,7 @@ def main():
                 screen.blit(img_shield, (350, 175))
                 if boss_choice == "Defend":
                     screen.blit(img_shield, (725, 175))
-                    action_message = f"{Knight1.get_name()} <SPLIT>and {Boss1.get_name()} both defend."
+                    action_message = f"{Knight1.get_name()} defends<SPLIT>{Boss1.get_name()} also defends."
                 elif boss_choice == "Sleep":
                     screen.blit(img_sleep, (725, 175))
                     action_message = f"{Knight1.get_name()} defends but there is no damage to block."
@@ -249,8 +253,22 @@ def main():
 
         screen.fill((230, 230, 230))
         if action_message:
-            screen.blit(font.render(action_message.split("<SPLIT>")[0], 1, (0, 0, 0)), (200, 660))
-            screen.blit(font.render(action_message.split("<SPLIT>")[1], 1, (0, 0, 0)), (200, 690))
+            # get color action
+            player_color = None
+            boss_color = None
+            for word in action_message.split("<SPLIT>")[0].split():
+                for color in action_colors:
+                    if re.search(".*" + color + ".*", word, re.IGNORECASE):
+                        player_color = action_colors[color]
+                        break
+            for word in action_message.split("<SPLIT>")[1].split():
+                #reg ex check
+                for color in action_colors:
+                    if re.search(".*" + color + ".*", word, re.IGNORECASE):
+                        boss_color = action_colors[color]
+                        break
+            screen.blit(font.render(action_message.split("<SPLIT>")[0], 1, player_color if player_color else (0,0,0)), (200, 660))
+            screen.blit(font.render(action_message.split("<SPLIT>")[1], 1, boss_color if boss_color else (0,0,0)), (200, 690))
         screen.blit(font.render(f"Floor {Floor} Turn {Turn}", 1, (10, 10, 10)), (500, 40))
 
         screen.blit(boss_name, boss_pos)
@@ -281,8 +299,8 @@ def main():
 
 
         if Boss1.get_hp() <= 0:
-            screen.blit(font.render(f"{Knight1.get_name()} has defeated {Boss1.get_name()} !", 1, (0, 255, 0)), (200, 690))
-            screen.blit(font.render(f"Gained {int((Boss1.get_xp() * Scale))} XP and {int(((7 * Floor) * Scale) * Knight1.goldgain)} Gold!", 1, (0, 255, 0)), (200, 720))
+            action_message = f"{Knight1.get_name()} has defeated {Boss1.get_name()} !"
+            action_message += f"<SPLIT>Gained {int((Boss1.get_xp() * Scale))} XP and {int(((7 * Floor) * Scale) * Knight1.goldgain)} Gold!"
             Knight1.set_xp(int(Knight1.get_xp() + (Boss1.get_xp() * Scale)))
             get_gold = Knight1.get_gold()
             Knight1.set_gold(int(get_gold + (((7 * Floor) * Scale) * Knight1.goldgain)))
@@ -313,8 +331,8 @@ def main():
             Floor += 1
             Turn = 0
         elif Knight1.get_hp() <= 0:
-            screen.blit(font.render(f"{Knight1.get_name()} has been defeated by {Boss1.get_name()} !", 1, (255, 0, 0)), (200, 690))
-            screen.blit(font.render(f"Killcount: {Kill_Count}           Game Over!", 1, (255, 0, 0)), (200, 720))
+            action_message = f"{Knight1.get_name()} has been defeated by {Boss1.get_name()} !"
+            action_message += f"<SPLIT>Killcount: {Kill_Count}           Game Over!"
             pygame.display.flip()
             pygame.time.delay(5000)
             running = False
