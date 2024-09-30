@@ -1,0 +1,104 @@
+{
+  "shop_items": [
+    {
+      "name": "Stick",
+      "price": 150,
+      "atk": 1.2,
+      "defense": 0,
+      "crit_chance": 5,
+      "hp": 0,
+      "goldgain": 0,
+      "hovertext": "A stick that gives you x1.2 attack and +5% crit chance"
+    },
+    {
+      "name": "Slot 2",
+      "price": 150,
+      "atk": 0,
+      "defense": 0,
+      "crit_chance": 0,
+      "hp": 0,
+      "goldgain": 0,
+      "hovertext": "PLACEHOLDER"
+    },
+    {
+      "name": "Slot 3",
+      "price": 50,
+      "atk": 0,
+      "defense": 0,
+      "crit_chance": 0,
+      "hp": 0,
+      "goldgain": 0,
+      "hovertext": "PLACEHOLDER"
+    },
+    {
+      "name": "Slot 4",
+      "price": 75,
+      "atk": 0,
+      "defense": 0,
+      "crit_chance": 0,
+      "hp": 0,
+      "goldgain": 0,
+      "hovertext": "PLACEHOLDER"
+    },
+    {
+      "name": "Slot 5",
+      "price": 200,
+      "atk": 0,
+      "defense": 0,
+      "crit_chance": 0,
+      "hp": 0,
+      "goldgain": 0,
+      "hovertext": "PLACEHOLDER"
+    },
+    {
+      "name": "Slot 6",
+      "price": 60,
+      "atk": 0,
+      "defense": 0,
+      "crit_chance": 0,
+      "hp": 0,
+      "goldgain": 0,
+      "hovertext": "PLACEHOLDER"
+    },
+    {
+      "name": "Slot 7",
+      "price": 120,
+      "atk": 0,
+      "defense": 0,
+      "crit_chance": 0,
+      "hp": 0,
+      "goldgain": 0,
+      "hovertext": "PLACEHOLDER"
+    },
+    {
+      "name": "Slot 8",
+      "price": 180,
+      "atk": 0,
+      "defense": 0,
+      "crit_chance": 0,
+      "hp": 0,
+      "goldgain": 0,
+      "hovertext": "PLACEHOLDER"
+    },
+    {
+      "name": "Slot 9",
+      "price": 90,
+      "atk": 0,
+      "defense": 0,
+      "crit_chance": 0,
+      "hp": 0,
+      "goldgain": 0,
+      "hovertext": "PLACEHOLDER"
+    },
+    {
+      "name": "Slot 10",
+      "price": 110,
+      "atk": 0,
+      "defense": 0,
+      "crit_chance": 0,
+      "hp": 0,
+      "goldgain": 0,
+      "hovertext": "PLACEHOLDER"
+    }
+  ]
+}

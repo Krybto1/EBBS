@@ -173,8 +173,10 @@ def handle_shop_click(shop_items, event, Knight1):
             if Knight1.get_gold() >= item.price:
                 Knight1.set_gold(Knight1.get_gold() - item.price)
                 print(f"Bought {item.name} for {item.price} gold.")
+                return item.name
             else:
                 print("Not enough gold!")
+                return None
 
 
 def handle_shop_hover(shop_items, screen, font, mouse_pos):

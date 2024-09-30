@@ -1,12 +1,13 @@
 import time
 import pygame
-from Classes import Boss
-from Classes import Knight
+from Classes import Boss, Knight, ShopItem
 import Classes
 import misc2
 import random
 import os
+import loader
 
+shop_items = loader.load("items.json")
 
 CharName = input("Enter your character name: ")
 Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 10, 1000)
@@ -35,19 +36,8 @@ def shake_image(screen, image, position, shake_intensity, shake_duration, bg_col
 
 
 def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button, bg_line):
+    global shop_active, shop_items
     shop_active = True
-    shop_items = [
-        {"name": "Stick", "price": 150, "atk": 1.2, "defense": 0, "crit_chance": 5, "hp": 0, "goldgain": 0, "hovertext": "A stick that gives you x1.2 attack and +5% crit chance"},
-        {"name": "Slot 2", "price": 150, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
-        {"name": "Slot 3", "price": 50, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
-        {"name": "Slot 4", "price": 75, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
-        {"name": "Slot 5", "price": 200, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
-        {"name": "Slot 6", "price": 60, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
-        {"name": "Slot 7", "price": 120, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
-        {"name": "Slot 8", "price": 180, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
-        {"name": "Slot 9", "price": 90, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"},
-        {"name": "Slot 10", "price": 110, "atk": 0, "defense": 0, "crit_chance": 0, "hp": 0, "goldgain": 0, "hovertext": "PLACEHOLDER"}
-    ]
     while shop_active:
         mouse_pos = pygame.mouse.get_pos()
         for event in pygame.event.get():
@@ -57,7 +47,11 @@ def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button, bg_line):
             if Shop_Exit_Button.is_clicked(event):
                 shop_active = False
             if event.type == pygame.MOUSEBUTTONDOWN:
-                Classes.handle_shop_click(shop_item_objects, event, Knight1)
+                item_name = Classes.handle_shop_click(shop_item_objects, event, Knight1)
+                if item_name:
+                    item = loader.get_item_by_name(shop_items, item_name)
+                    if item:
+                        item["price"] = int(item["price"] * 1.1)
 
         shop_screen.fill((230, 230, 230))
         shop_screen.blit(font.render(f"Welcome to the Shop!", 1, (10, 10, 10)), (500, 40))
