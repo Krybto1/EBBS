@@ -11,7 +11,7 @@ import re
 shop_items = loader.load("items.json")
 
 CharName = input("Enter your character name: ")
-Knight1 = Knight(CharName, 100, 15, 10, 1, 0.01, 10, 21000, 1)
+Knight1 = Knight(CharName, 100, 15, 10, 1, 0.01, 10, 100, 1)
 Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
 
 
@@ -87,7 +87,10 @@ def main():
     shop_active = False
     action_colors = {"attack": (255, 0, 0),
                      "sleep": (0, 200, 160),
-                     "defend": (0, 0, 255)}
+                     "defend": (0, 0, 255),
+                     "defeated": (0, 255, 0),
+                     "gained": (0, 255, 0)}
+
 
 
     font_loader = "C:/Windows/Fonts/Calibri.ttf"
@@ -173,7 +176,7 @@ def main():
                     if player_crit:
                         action_message = f"ITS A CRIT! {Knight1.get_name()} attacks {Boss1.get_name()} for {int(((Knight1.get_attack() - Boss1.get_defense()) * 1.75))} damage."
                         if Boss1.get_hp() == Boss1.get_max_hp():
-                            action_message += f" <SPLIT>{Boss1.get_name()} is already at max HP!"
+                            action_message += f" <SPLIT>{Boss1.get_name()} sleeps but is already at max HP!"
                             Boss1.set_hp(int(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) * 1.75)))
                         elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
                             Boss1.set_hp(Boss1.get_max_hp())
@@ -186,7 +189,7 @@ def main():
                     else:
                         action_message = f"{Knight1.get_name()} attacks {Boss1.get_name()} for {Knight1.get_attack() - Boss1.get_defense()} damage."
                         if Boss1.get_hp() == Boss1.get_max_hp():
-                            action_message += f" <SPLIT>{Boss1.get_name()} is already at max HP!"
+                            action_message += f" <SPLIT>{Boss1.get_name()} sleeps but is already at max HP!"
                             Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
                         elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
                             Boss1.set_hp(Boss1.get_max_hp())
@@ -209,7 +212,7 @@ def main():
                     action_message = f"{Knight1.get_name()} defends but there is no damage to block."
                     boss_heal = (Boss1.get_level() * 2) * 1.5
                     if Boss1.get_hp() == Boss1.get_max_hp():
-                        action_message += f" <SPLIT>{Boss1.get_name()} is already at max HP!"
+                        action_message += f" <SPLIT>{Boss1.get_name()} sleeps but is already at max HP!"
                     elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
                         Boss1.set_hp(Boss1.get_max_hp())
                         action_message += f" <SPLIT>{Boss1.get_name()} sleeps but is almost at max HP! Only healed for {(Boss1.get_hp() + boss_heal) - Boss1.get_max_hp()}."
@@ -224,7 +227,7 @@ def main():
             if Sleep_Button.is_clicked(event):
                 screen.blit(img_sleep, (350, 175))
                 if Knight1.get_hp() == Knight1.get_max_hp():
-                    action_message = f"{Knight1.get_name()} is already at max HP!"
+                    action_message = f"{Knight1.get_name()} sleeps but is already at max HP!"
                 elif Knight1.get_hp() + player_heal > Knight1.get_max_hp():
                     Knight1.set_hp(Knight1.get_max_hp())
                     action_message = f"{Knight1.get_name()} sleeps but is almost at max HP! Only healed for {(Knight1.get_hp() + player_heal) - Knight1.get_max_hp()}."
@@ -301,10 +304,10 @@ def main():
 
         if Boss1.get_hp() <= 0:
             action_message = f"{Knight1.get_name()} has defeated {Boss1.get_name()} !"
-            action_message += f"<SPLIT>Gained {int((Boss1.get_xp() * Scale))} XP and {int(((7 * Floor) * Scale) * Knight1.goldgain)} Gold!"
+            action_message += f"<SPLIT>Gained {int((Boss1.get_xp() * Scale))} XP and {int(((10 * Floor) * Scale) * Knight1.goldgain)} Gold!"
             Knight1.set_xp(int(Knight1.get_xp() + (Boss1.get_xp() * Scale)))
             get_gold = Knight1.get_gold()
-            Knight1.set_gold(int(get_gold + (((7 * Floor) * Scale) * Knight1.goldgain)))
+            Knight1.set_gold(int(get_gold + (((10 * Floor) * Scale) * Knight1.goldgain)))
             Boss1.kill()
             if Floor > 5:
                 Rarity_Choice = random.choices(misc2.rarity_tiers,

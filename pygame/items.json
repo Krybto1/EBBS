@@ -24,13 +24,14 @@
     },
     {
       "name": "Slot 3",
-      "price": 9999999999,
+      "price": -1,
       "atk": 0,
       "defense": 0,
       "crit_chance": 0,
       "hp": 0,
       "goldgain": 0,
-      "hovertext": "PLACEHOLDER"
+      "hovertext": "PLACEHOLDER",
+      "pricemodifier": 1
     },
     {
       "name": "Slot 4",

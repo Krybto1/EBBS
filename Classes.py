@@ -49,9 +49,9 @@ class Boss:
     def kill(self):
         lvlup_boss = random.randint(1, 4)
         self.level += lvlup_boss
-        self.hp = int(75 + ((20 * self.level) ** 1.02))
-        self.atk = int(12 + ((7 * self.level) ** 1.02))
-        self.defense = int(7 + ((4 * self.level) ** 1.02))
+        self.hp = int(75 + ((17 * self.level) ** 1.01))
+        self.atk = int(12 + ((5 * self.level) ** 1.01))
+        self.defense = int(7 + ((2 * self.level) ** 1.01))
 
     def get_xp(self):
         xp_grabber = self.level * (100 ** 1.07)
@@ -136,7 +136,7 @@ class Knight:
     def level_up(self):
         self.level += 1
         self.hp = int(self.get_max_hp())
-        self.atk = int(self.get_attack() + 12)
+        self.atk = int(self.get_attack() + 10)
         self.defense = int(self.get_defense() + 6)
 
     def draw_hp_bar(self, screen, x, y, width, height):
