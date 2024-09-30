@@ -110,6 +110,10 @@ class Knight:
     def set_xp(self, xp):
         self.xp = xp
 
+    def get_max_xp(self):
+        return int((80 * self.get_level()) ** 1.07)
+
+
     def get_crit_chance(self):
         return self.crit_chance
 
@@ -140,6 +144,10 @@ class Knight:
         hp_width = self.hp / self.get_max_hp() * width
         pygame.draw.rect(screen, (0, 255, 0), (x, y, hp_width, height))
 
+    def draw_xp_bar(self, screen, x, y, width, height):
+        pygame.draw.rect(screen, (0, 0, 0), (x, y, width, height))
+        xp_width = self.xp / self.get_max_xp() * width
+        pygame.draw.rect(screen, (255, 0, 255), (x, y, xp_width, height))
 
 class ShopItem:
     def __init__(self, name, price, atk, defense, crit_chance, hp, goldgain, rect, hovertext):

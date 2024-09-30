@@ -11,7 +11,7 @@ import re
 shop_items = loader.load("items.json")
 
 CharName = input("Enter your character name: ")
-Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 10, 21000, 1)
+Knight1 = Knight(CharName, 100, 15, 10, 1, 0.01, 10, 21000, 1)
 Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
 
 
@@ -243,7 +243,7 @@ def main():
                 else:
                     screen.blit(img_sleep, (725, 175))
                     if Boss1.get_hp() == Boss1.get_max_hp():
-                        action_message += f" <SPLIT>{Boss1.get_name()} is already at max HP!"
+                        action_message += f" <SPLIT>{Boss1.get_name()} sleeps but is already at max HP!"
                     elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
                         Boss1.set_hp(Boss1.get_max_hp())
                         action_message += f" <SPLIT>{Boss1.get_name()} sleeps but is almost at max HP! Only healed for {(Boss1.get_hp() + boss_heal) - Boss1.get_max_hp()}."
@@ -282,8 +282,9 @@ def main():
 
         screen.blit(player_name, player_pos)
         Knight1.draw_hp_bar(screen, 100, 300, 200, 25)
+        Knight1.draw_xp_bar(screen, 100, 325, 200, 25)
         screen.blit(font.render(f"HP: {max(int(Knight1.get_hp()), 0)}", 1, (10, 10, 10)), (130, 300))
-        screen.blit(font.render(f"XP: {XP_check2} /// {Player_XP_Thr}", 1, (0, 255, 0)), (100, 325))
+        screen.blit(font.render(f"XP: {max(int(XP_check2), 0)} / {Player_XP_Thr}", 1, (255, 255, 255)), (100, 325))
         screen.blit(font.render(f"Stats", 1, (10, 10, 10)), (100, 400))
         screen.blit(font.render(f"Attack: {int(Knight1.get_attack() + ItemsBonus)}", 1, (170, 0, 0)), (100, 430))
         screen.blit(font.render(f"Defense: {int(Knight1.get_defense())}", 1, (0, 0, 170)), (100, 460))
