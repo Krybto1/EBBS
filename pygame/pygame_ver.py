@@ -10,7 +10,7 @@ import loader
 shop_items = loader.load("items.json")
 
 CharName = input("Enter your character name: ")
-Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 10, 1000)
+Knight1 = Knight(CharName, 100, 15, 10, 1, 0, 10, 21000, 1)
 Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
 
 
@@ -51,7 +51,7 @@ def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button, bg_line):
                 if item_name:
                     item = loader.get_item_by_name(shop_items, item_name)
                     if item:
-                        item["price"] = int(item["price"] * 1.1)
+                        item["price"] = int(item["price"] * item["pricemodifier"])
 
         shop_screen.fill((230, 230, 230))
         shop_screen.blit(font.render(f"Welcome to the Shop!", 1, (10, 10, 10)), (500, 40))
@@ -314,10 +314,10 @@ def main():
 
         if Boss1.get_hp() <= 0:
             screen.blit(font.render(f"{Knight1.get_name()} has defeated {Boss1.get_name()} !", 1, (0, 255, 0)), (200, 690))
-            screen.blit(font.render(f"Gained {int((Boss1.get_xp() * Scale))} XP and {int((7 * Floor) * Scale)} Gold!", 1, (0, 255, 0)), (200, 720))
+            screen.blit(font.render(f"Gained {int((Boss1.get_xp() * Scale))} XP and {int(((7 * Floor) * Scale) * Knight1.goldgain)} Gold!", 1, (0, 255, 0)), (200, 720))
             Knight1.set_xp(int(Knight1.get_xp() + (Boss1.get_xp() * Scale)))
             get_gold = Knight1.get_gold()
-            Knight1.set_gold(int(get_gold + ((7 * Floor) * Scale)))
+            Knight1.set_gold(int(get_gold + (((7 * Floor) * Scale) * Knight1.goldgain)))
             Boss1.kill()
             if Floor > 5:
                 Rarity_Choice = random.choices(misc2.rarity_tiers,

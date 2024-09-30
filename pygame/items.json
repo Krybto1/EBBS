@@ -8,17 +8,19 @@
       "crit_chance": 5,
       "hp": 0,
       "goldgain": 0,
-      "hovertext": "A stick that gives you x1.2 attack and +5% crit chance"
+      "hovertext": "A stick that gives you x1.2 attack and +5% crit chance",
+      "pricemodifier": 1.5
     },
     {
-      "name": "Slot 2",
-      "price": 150,
+      "name": "Magic Coin",
+      "price": 500,
       "atk": 0,
       "defense": 0,
       "crit_chance": 0,
       "hp": 0,
-      "goldgain": 0,
-      "hovertext": "PLACEHOLDER"
+      "goldgain": 2.5,
+      "hovertext": "A Magic Coin that gives you x2.5 gold gain",
+      "pricemodifier": 4
     },
     {
       "name": "Slot 3",

@@ -63,7 +63,7 @@ class Boss:
         pygame.draw.rect(screen, (0, 255, 0), (x, y, hp_width, height))
 
 class Knight:
-    def __init__(self, name, hp, atk, defense, level, xp, crit_chance, gold):
+    def __init__(self, name, hp, atk, defense, level, xp, crit_chance, gold, goldgain):
         self.name = name
         self.hp = hp
         self.atk = atk
@@ -72,6 +72,7 @@ class Knight:
         self.xp = xp
         self.crit_chance = crit_chance
         self.gold = gold
+        self.goldgain = goldgain
 
     def get_name(self):
         return self.name
@@ -88,8 +89,14 @@ class Knight:
     def get_attack(self):
         return self.atk
 
+    def set_attack(self, atk):
+        self.atk = atk
+
     def get_defense(self):
         return self.defense
+
+    def set_defense(self, defense):
+        self.defense = defense
 
     def get_level(self):
         return self.level
@@ -115,6 +122,12 @@ class Knight:
 
     def set_gold(self, gold):
         self.gold = gold
+
+    def get_goldgain(self):
+        return self.goldgain
+
+    def set_goldgain(self, goldgain):
+        self.goldgain = goldgain
 
     def level_up(self):
         self.level += 1
@@ -173,6 +186,11 @@ def handle_shop_click(shop_items, event, Knight1):
             if Knight1.get_gold() >= item.price:
                 Knight1.set_gold(Knight1.get_gold() - item.price)
                 print(f"Bought {item.name} for {item.price} gold.")
+                Knight1.set_attack(Knight1.get_attack() * max(item.atk, 1))
+                Knight1.set_defense(Knight1.get_defense() * max(item.defense, 1))
+                Knight1.set_crit_chance(Knight1.get_crit_chance() + max(item.crit_chance, 1))
+                Knight1.set_hp(Knight1.get_hp() + max(item.hp, 1))
+                Knight1.set_goldgain(Knight1.get_goldgain() + max(item.goldgain, 1))
                 return item.name
             else:
                 print("Not enough gold!")
