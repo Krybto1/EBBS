@@ -81,7 +81,7 @@ class Knight:
         return int(self.hp)
 
     def get_max_hp(self):
-        return int(100 + ((40 * self.level) ** 1.1) if self.level > 1 else 100)
+        return int(100 + (40 * self.level) if self.level > 1 else 100)
 
     def set_hp(self, hp):
         self.hp = hp
@@ -131,9 +131,9 @@ class Knight:
 
     def level_up(self):
         self.level += 1
-        self.hp = int(100 + ((40 * self.level) ** 1.1))
-        self.atk = int(15 + ((12 * self.level) ** 1.1))
-        self.defense = int(10 + ((6 * self.level) ** 1.1))
+        self.hp = int(self.get_max_hp())
+        self.atk = int(self.get_attack() + 12)
+        self.defense = int(self.get_defense() + 6)
 
     def draw_hp_bar(self, screen, x, y, width, height):
         pygame.draw.rect(screen, (255, 0, 0), (x, y, width, height))
@@ -188,9 +188,9 @@ def handle_shop_click(shop_items, event, Knight1):
                 print(f"Bought {item.name} for {item.price} gold.")
                 Knight1.set_attack(Knight1.get_attack() * max(item.atk, 1))
                 Knight1.set_defense(Knight1.get_defense() * max(item.defense, 1))
-                Knight1.set_crit_chance(Knight1.get_crit_chance() + max(item.crit_chance, 1))
-                Knight1.set_hp(Knight1.get_hp() + max(item.hp, 1))
-                Knight1.set_goldgain(Knight1.get_goldgain() + max(item.goldgain, 1))
+                Knight1.set_crit_chance(Knight1.get_crit_chance() + max(item.crit_chance, 0.000001))
+                Knight1.set_hp(Knight1.get_hp() * max(item.hp, 1))
+                Knight1.set_goldgain(Knight1.get_goldgain() + max(item.goldgain, 0.000001))
                 return item.name
             else:
                 print("Not enough gold!")

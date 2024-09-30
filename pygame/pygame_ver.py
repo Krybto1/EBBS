@@ -217,6 +217,7 @@ def main():
                             Boss1.set_hp(Boss1.get_hp() - (Knight1.get_attack() - Boss1.get_defense()))
                 shake_image(screen, img_enemy, (900, 100), shake_intensity=10, shake_duration=0.5,
                             bg_color=(230, 230, 230))
+                time.sleep(1)
             if Def_Button.is_clicked(event):
                 screen.blit(img_shield, (350, 175))
                 if boss_choice == "Defend":
@@ -242,6 +243,7 @@ def main():
                     screen.blit(font.render(f"{Boss1.get_name()} attacks {Knight1.get_name()} for {(Boss1.get_attack() - Knight1.get_defense())} damage", 1, (255, 0, 0)), (200, 630))
                     Knight1.set_hp(Knight1.get_hp() - ((Boss1.get_attack() - Knight1.get_defense()) / 2))
                     shake_image(screen, img_player, (100, 100), shake_intensity=10, shake_duration=0.5, bg_color=(230, 230, 230))
+                time.sleep(1)
             if Sleep_Button.is_clicked(event):
                 screen.blit(img_sleep, (350, 175))
                 if Knight1.get_hp() == Knight1.get_max_hp():
@@ -276,6 +278,7 @@ def main():
                         screen.blit(
                             font.render(f"{Boss1.get_name()} sleeps and heals for {boss_heal} HP", 1, (255, 0, 255)),
                             (200, 630))
+                    time.sleep(1)
 
             pygame.display.flip()
 
@@ -299,9 +302,9 @@ def main():
         screen.blit(font.render(f"Stats", 1, (10, 10, 10)), (100, 400))
         screen.blit(font.render(f"Attack: {int(Knight1.get_attack() + ItemsBonus)}", 1, (170, 0, 0)), (100, 430))
         screen.blit(font.render(f"Defense: {int(Knight1.get_defense())}", 1, (0, 0, 170)), (100, 460))
-        screen.blit(font.render(f"Level: {Knight1.get_level()}", 1, (170, 0, 170)), (100, 490))
-        screen.blit(font.render(f"Crit Chance: {Knight1.get_crit_chance()}%", 1, (255, 0, 255)), (100, 520))
-        screen.blit(font.render(f"Gold: {Knight1.get_gold()}", 1, (230, 230, 80)), (100, 550))
+        screen.blit(font.render(f"Level: {int(Knight1.get_level())}", 1, (170, 0, 170)), (100, 490))
+        screen.blit(font.render(f"Crit Chance: {int(Knight1.get_crit_chance())}%", 1, (255, 0, 255)), (100, 520))
+        screen.blit(font.render(f"Gold: {int(Knight1.get_gold())}", 1, (230, 230, 80)), (100, 550))
         screen.blit(img_player, (100, 100))
 
         Atk_Button.draw(screen)

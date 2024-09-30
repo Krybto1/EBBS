@@ -24,7 +24,7 @@
     },
     {
       "name": "Slot 3",
-      "price": 50,
+      "price": 9999999999,
       "atk": 0,
       "defense": 0,
       "crit_chance": 0,
@@ -34,7 +34,7 @@
     },
     {
       "name": "Slot 4",
-      "price": 75,
+      "price": 9999999999,
       "atk": 0,
       "defense": 0,
       "crit_chance": 0,
@@ -44,7 +44,7 @@
     },
     {
       "name": "Slot 5",
-      "price": 200,
+      "price": 9999999999,
       "atk": 0,
       "defense": 0,
       "crit_chance": 0,
@@ -54,7 +54,7 @@
     },
     {
       "name": "Slot 6",
-      "price": 60,
+      "price": 9999999999,
       "atk": 0,
       "defense": 0,
       "crit_chance": 0,
@@ -64,7 +64,7 @@
     },
     {
       "name": "Slot 7",
-      "price": 120,
+      "price": 9999999999,
       "atk": 0,
       "defense": 0,
       "crit_chance": 0,
@@ -74,7 +74,7 @@
     },
     {
       "name": "Slot 8",
-      "price": 180,
+      "price": 9999999999,
       "atk": 0,
       "defense": 0,
       "crit_chance": 0,
@@ -84,7 +84,7 @@
     },
     {
       "name": "Slot 9",
-      "price": 90,
+      "price": 9999999999,
       "atk": 0,
       "defense": 0,
       "crit_chance": 0,
@@ -94,7 +94,7 @@
     },
     {
       "name": "Slot 10",
-      "price": 110,
+      "price": 9999999999,
       "atk": 0,
       "defense": 0,
       "crit_chance": 0,
