@@ -169,6 +169,7 @@ def main():
     Shop_Button = misc2.Button(1050, 530, 150, 50, "Shop", (255, 255, 0), (255, 255, 100))
     Shop_Exit_Button = misc2.Button(1050, 600, 150, 50, "Exit", (0, 255, 0), (0, 255, 100))
 
+    actions = [None, None] #0 For Attack, 1 For Defend, 2 For Sleep
     while running:
         clock.tick(60)
         crit_rdm = random.randint(1, 100)
@@ -199,12 +200,12 @@ def main():
             if Shop_Button.is_clicked(event):
                 enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button)
             if Atk_Button.is_clicked(event):
-                screen.blit(img_sword, (350, 175))
+                actions[0] = 0
                 player_crit = 0
                 if crit_rdm <= Knight1.crit_chance:
                     player_crit = True
                 if boss_choice == "Defend":
-                    screen.blit(img_shield, (725, 175))
+                    actions[1] = 1
                     if player_crit:
                         Boss1.set_hp(int(Boss1.get_hp() - (((Knight1.get_attack() - Boss1.get_defense()) / 2) * 1.75)))
                         action_message = f"ITS A CRIT! {Knight1.get_name()} attacks {Boss1.get_name()} for {int(((Knight1.get_attack() - Boss1.get_defense()) / 2) * 1.75)} damage. <SPLIT>{Boss1.get_name()} defends and blocks {int(((Knight1.get_attack() - Boss1.get_defense()) / 2) * 1.75)} damage."
@@ -212,7 +213,7 @@ def main():
                         action_message = f"{Knight1.get_name()} attacks {Boss1.get_name()} for {Knight1.get_attack() - Boss1.get_defense()} damage. <SPLIT>{Boss1.get_name()} defends and blocks {(Knight1.get_attack() - Boss1.get_defense()) / 2} damage."
                         Boss1.set_hp(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) / 2))
                 elif boss_choice == "Attack":
-                    screen.blit(img_sword, (725, 175))
+                    actions[1] = 0
                     Knight1.set_hp(Knight1.get_hp() - (Boss1.get_attack() - Knight1.get_defense()))
                     if player_crit:
                         Boss1.set_hp(int(Boss1.get_hp() - ((Knight1.get_attack() - Boss1.get_defense()) * 1.75)))
@@ -226,7 +227,7 @@ def main():
                         shake_image(screen, img_player, (100, 100), shake_intensity=10, shake_duration=0.5,
                                     bg_color=(230, 230, 230))
                 else:
-                    screen.blit(img_sleep, (725, 175))
+                    actions[1] = 2
                     if player_crit:
                         action_message = f"ITS A CRIT! {Knight1.get_name()} attacks {Boss1.get_name()} for {int(((Knight1.get_attack() - Boss1.get_defense()) * 1.75))} damage."
                         if Boss1.get_hp() == Boss1.get_max_hp():
@@ -257,12 +258,12 @@ def main():
                             bg_color=(230, 230, 230))
 
             if Def_Button.is_clicked(event):
-                screen.blit(img_shield, (350, 175))
+                actions[0] = 1
                 if boss_choice == "Defend":
-                    screen.blit(img_shield, (725, 175))
+                    actions[1] = 1
                     action_message = f"{Knight1.get_name()} defends<SPLIT>{Boss1.get_name()} also defends."
                 elif boss_choice == "Sleep":
-                    screen.blit(img_sleep, (725, 175))
+                    actions[1] = 2
                     action_message = f"{Knight1.get_name()} defends but there is no damage to block."
                     boss_heal = (Boss1.get_level() * 2) * 1.5
                     if Boss1.get_hp() == Boss1.get_max_hp():
@@ -274,12 +275,12 @@ def main():
                         Boss1.set_hp(Boss1.get_hp() + boss_heal)
                         action_message += f" <SPLIT>{Boss1.get_name()} sleeps and heals for {boss_heal} HP."
                 else:
-                    screen.blit(img_sword, (725, 175))
+                    actions[1] = 0
                     action_message = f"{Knight1.get_name()} defends and blocks {(Boss1.get_attack() - Knight1.get_defense()) / 2} damage. <SPLIT>{Boss1.get_name()} attacks {Knight1.get_name()} for {(Boss1.get_attack() - Knight1.get_defense())} damage."
                     Knight1.set_hp(Knight1.get_hp() - ((Boss1.get_attack() - Knight1.get_defense()) / 2))
                     shake_image(screen, img_player, (100, 100), shake_intensity=10, shake_duration=0.5, bg_color=(230, 230, 230))
             if Sleep_Button.is_clicked(event):
-                screen.blit(img_sleep, (350, 175))
+                actions[0] = 2
                 if Knight1.get_hp() == Knight1.get_max_hp():
                     action_message = f"{Knight1.get_name()} sleeps but is already at max HP!"
                 elif Knight1.get_hp() + player_heal > Knight1.get_max_hp():
@@ -289,16 +290,16 @@ def main():
                     action_message = f"{Knight1.get_name()} sleeps and heals for {player_heal} HP."
                     Knight1.set_hp(Knight1.get_hp() + player_heal)
                 if boss_choice == "Defend":
-                    screen.blit(img_shield, (725, 175))
+                    actions[1] = 1
                     action_message += f" <SPLIT>{Boss1.get_name()} defends but there is no damage to block."
                 elif boss_choice == "Attack":
-                    screen.blit(img_sword, (725, 175))
+                    actions[1] = 0
                     action_message += f" <SPLIT>{Boss1.get_name()} attacks {Knight1.get_name()} for {Boss1.get_attack() - Knight1.get_defense()} damage."
                     Knight1.set_hp(Knight1.get_hp() - (Boss1.get_attack() - Knight1.get_defense()))
                     shake_image(screen, img_player, (100, 100), shake_intensity=10, shake_duration=0.5,
                                 bg_color=(230, 230, 230))
                 else:
-                    screen.blit(img_sleep, (725, 175))
+                    actions[1] = 2
                     if Boss1.get_hp() == Boss1.get_max_hp():
                         action_message += f" <SPLIT>{Boss1.get_name()} sleeps but is already at max HP!"
                     elif Boss1.get_hp() + boss_heal > Boss1.get_max_hp():
@@ -309,7 +310,6 @@ def main():
                         action_message += f" <SPLIT>{Boss1.get_name()} sleeps and heals for {boss_heal} HP."
 
         screen.fill((230, 230, 230))
-        screen.blit(img_background, (0, 0))
         if action_message:
             # get color action
             player_color = None
