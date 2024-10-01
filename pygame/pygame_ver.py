@@ -74,6 +74,9 @@ def shake_image(screen, image, position, shake_intensity, shake_duration, bg_col
         offset_x = random.randint(-shake_intensity, shake_intensity)
         new_position = (original_position[0] + offset_x, original_position[1])
 
+        #pygame draw black line
+        pygame.draw.line(screen, (0, 0, 0), (0, 590), (1200, 590), 2)
+
         # Fill the old position with the background color
         screen.fill(bg_color, image_rect)
 
@@ -86,7 +89,7 @@ def shake_image(screen, image, position, shake_intensity, shake_duration, bg_col
         image_rect.topleft = new_position
 
 
-def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button, bg_line):
+def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button):
     global shop_active, shop_items
     shop_active = True
     while shop_active:
@@ -116,7 +119,7 @@ def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button, bg_line):
         Classes.handle_shop_hover(shop_item_objects, shop_screen, font, mouse_pos)
 
         screen.blit(shop_screen, (0, 0))
-        shop_screen.blit(bg_line, (0, 590))
+        pygame.draw.line(screen, (0, 0, 0), (0, 590), (1200, 590), 2)
         pygame.display.flip()
 
 
@@ -157,7 +160,6 @@ def main():
     img_shield = pygame.transform.scale(img_shield, (75, 75))
     img_sleep = pygame.image.load("img/Sleep_Icon.png")
     img_sleep = pygame.transform.scale(img_sleep, (75, 75))
-    bg_line = pygame.image.load("img/Bg_Line.png")
     img_gold = pygame.image.load("img/Gold_Icon.jpg")
     img_gold = pygame.transform.scale(img_gold, (50, 50))
 
@@ -169,7 +171,6 @@ def main():
 
     while running:
         clock.tick(60)
-        screen.blit(bg_line, (0, 590))
         crit_rdm = random.randint(1, 100)
         boss_name = font.render(Boss1.get_name(), 1, (10, 10, 10))
         boss_pos = boss_name.get_rect(centerx=1000, centery=375)
@@ -179,7 +180,6 @@ def main():
         player_name = font.render(Knight1.get_name(), 1, (10, 10, 10))
         player_pos = player_name.get_rect(centerx=200, centery=375)
         img_player = pygame.image.load("img/Player_Img.jpg")
-        bg_line = pygame.transform.scale(bg_line, (screen.get_width(), 2))
 
         img_player = pygame.transform.scale(img_player, (200, 200))
         player_heal = (Knight1.get_level() * 5) * 1.5
@@ -197,7 +197,7 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
             if Shop_Button.is_clicked(event):
-                enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button, bg_line)
+                enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button)
             if Atk_Button.is_clicked(event):
                 screen.blit(img_sword, (350, 175))
                 player_crit = 0
@@ -394,6 +394,7 @@ def main():
             pygame.display.flip()
             pygame.time.delay(5000)
             running = False
+        pygame.draw.line(screen, (0, 0, 0), (0, 590), (1200, 590), 2)
         pygame.display.flip()
 
 if __name__ == "__main__": main()
