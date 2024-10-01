@@ -45,7 +45,7 @@ def pregame_screen():
                         done = True
                     elif event.key == pygame.K_BACKSPACE:
                         text = text[:-1]
-                    else:
+                    elif len(text) < 15:
                         text += event.unicode
 
         screen.fill((120, 120, 120))
@@ -62,7 +62,6 @@ def pregame_screen():
         pygame.display.flip()
 
     return text
-
 
 
 def shake_image(screen, image, position, shake_intensity, shake_duration, bg_color):
@@ -362,8 +361,15 @@ def main():
             Knight1.set_xp(int(Knight1.get_xp() + (Boss1.get_xp() * Scale)))
             get_gold = Knight1.get_gold()
             Knight1.set_gold(int(get_gold + (((10 * Floor) * Scale) * Knight1.goldgain)))
-            Boss1.kill()
-            if Floor > 5:
+            if Floor < 5:
+                Boss1.kill(1)
+                Rarity_Choice = misc2.rarity_tiers[0]
+                Scale = 1
+                Boss1.set_name(f"{Rarity_Choice} {random.choice(misc2.enemies)}")
+            elif Floor > 5:
+                lvl_list = [1, 2]
+                levelcount = random.choices(lvl_list, weights=[0.8, 0.2], k=1)
+                Boss1.kill(levelcount[0])
                 Rarity_Choice = random.choices(misc2.rarity_tiers,
                                            weights=[0.3, 0.2, 0.1, 0.04, 0.04, 0.03, 0.03, 0.03,
                                                     0.02, 0.02, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
@@ -371,10 +377,39 @@ def main():
                                                     0.01, 0.01, 0.01, 0.01, 0.01], k=1)
                 Scale = misc2.rarity_scale[Rarity_Choice[0]]
                 Boss1.set_name(f"{Rarity_Choice[0]} {random.choice(misc2.enemies)}")
-            else:
-                Rarity_Choice = misc2.rarity_tiers[0]
-                Scale = 1
-                Boss1.set_name(f"{Rarity_Choice} {random.choice(misc2.enemies)}")
+            elif Floor > 15:
+                lvl_list = [1, 2, 3]
+                levelcount = random.choices(lvl_list, weights=[0.6, 0.3, 0.1], k=1)
+                Boss1.kill(levelcount[0])
+                Rarity_Choice = random.choices(misc2.rarity_tiers,
+                                            weights=[0.2, 0.2, 0.1, 0.05, 0.05, 0.04, 0.04, 0.04,
+                                                    0.03, 0.03, 0.02, 0.02, 0.02, 0.01, 0.01, 0.01,
+                                                    0.01, 0.01, 0.01, 0.01, 0.01, 0.01, 0.01,
+                                                    0.01, 0.01, 0.01, 0.01, 0.01], k=1)
+                Scale = misc2.rarity_scale[Rarity_Choice[0]]
+                Boss1.set_name(f"{Rarity_Choice[0]} {random.choice(misc2.enemies)}")
+            elif Floor > 35:
+                lvl_list = [1, 2, 3, 4]
+                levelcount = random.choices(lvl_list, weights=[0.4, 0.3, 0.2, 0.1], k=1)
+                Boss1.kill(levelcount[0])
+                Rarity_Choice = random.choices(misc2.rarity_tiers,
+                                           weights=[0.05, 0.2, 0.1, 0.05, 0.05, 0.04, 0.04, 0.04,
+                                                    0.03, 0.03, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+                                                    0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+                                                    0.02, 0.02, 0.02, 0.02, 0.02], k=1)
+                Scale = misc2.rarity_scale[Rarity_Choice[0]]
+                Boss1.set_name(f"{Rarity_Choice[0]} {random.choice(misc2.enemies)}")
+            elif Floor > 50:
+                lvl_list = [1, 2, 3, 4, 5]
+                levelcount = random.choices(lvl_list, weights=[0.2, 0.2, 0.2, 0.2, 0.2], k=1)
+                Boss1.kill(levelcount[0])
+                Rarity_Choice = random.choices(misc2.rarity_tiers,
+                                           weights=[0.05, 0.05, 0.15, 0.1, 0.05, 0.05, 0.05, 0.05,
+                                                    0.04, 0.03, 0.03, 0.02, 0.02, 0.02, 0.02, 0.02,
+                                                    0.02, 0.02, 0.02, 0.02, 0.02, 0.02, 0.02,
+                                                    0.02, 0.02, 0.02, 0.02, 0.02], k=1)
+                Scale = misc2.rarity_scale[Rarity_Choice[0]]
+                Boss1.set_name(f"{Rarity_Choice[0]} {random.choice(misc2.enemies)}")
 
             boss_index = misc2.enemies.index(Boss1.get_name().split(maxsplit=1)[1])
             if os.path.exists(misc2.enemies_png[boss_index]):

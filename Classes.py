@@ -46,8 +46,8 @@ class Boss:
     def get_level(self):
         return self.level
 
-    def kill(self):
-        lvlup_boss = random.randint(1, 4)
+    def kill(self, levelcount):
+        lvlup_boss = levelcount
         self.level += lvlup_boss
         self.hp = int(75 + ((17 * self.level) ** 1.01))
         self.atk = int(12 + ((5 * self.level) ** 1.01))
