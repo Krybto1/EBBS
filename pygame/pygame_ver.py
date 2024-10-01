@@ -160,6 +160,7 @@ def main():
     img_sleep = pygame.image.load("img/Sleep_Icon.png")
     img_sleep = pygame.transform.scale(img_sleep, (75, 75))
     img_gold = pygame.image.load("img/Gold_Icon.jpg")
+    img_background = pygame.image.load("img/background.png")
     img_gold = pygame.transform.scale(img_gold, (50, 50))
 
     Atk_Button = misc2.Button(500, 100, 150, 50, "Attack", (170, 0, 0), (200, 100, 0))
@@ -308,6 +309,7 @@ def main():
                         action_message += f" <SPLIT>{Boss1.get_name()} sleeps and heals for {boss_heal} HP."
 
         screen.fill((230, 230, 230))
+        screen.blit(img_background, (0, 0))
         if action_message:
             # get color action
             player_color = None
@@ -429,7 +431,7 @@ def main():
             pygame.display.flip()
             pygame.time.delay(5000)
             running = False
-        pygame.draw.line(screen, (0, 0, 0), (0, 590), (1200, 590), 2)
+        pygame.draw.line(screen, (0, 0, 0), (0, 600), (1200, 600), 2)
         pygame.display.flip()
 
 if __name__ == "__main__": main()
