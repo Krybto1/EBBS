@@ -1,7 +1,6 @@
 Ideas:
 
 #Save Game Progess
-#Skills
 #Energy/Mana System for Skills
 #Equipment
 #Boss Abilities
@@ -10,10 +9,10 @@ Ideas:
 #Classes
 #Quests & Achievements
 #Inventory & Loot Drops
-#XP UI Revamp
+
 
 Next up:
-#Name Menu
+#Skills
 
 
 Working on:
@@ -21,9 +20,11 @@ Working on:
 
 
 Done:
+#Name Menu
 #Stat Scaling with Rarity
 #Crits & Crit Chance
 #Visuals for Atk, Def, Slp
 #Improve Balancing
-#Add Shop to The Game
 #Add Gold & Gold Drops
+#Add Shop to The Game
+#XP UI Revamp
