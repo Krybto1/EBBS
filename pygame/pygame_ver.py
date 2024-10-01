@@ -432,4 +432,5 @@ def main():
         pygame.draw.line(screen, (0, 0, 0), (0, 600), (1200, 600), 2)
         pygame.display.flip()
 
+
 if __name__ == "__main__": main()
