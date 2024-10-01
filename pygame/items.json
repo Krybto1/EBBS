@@ -2,14 +2,14 @@
   "shop_items": [
     {
       "name": "Stick",
-      "price": 150,
-      "atk": 1.2,
+      "price": 200,
+      "atk": 1.1,
       "defense": 0,
-      "crit_chance": 5,
+      "crit_chance": 2,
       "hp": 0,
       "goldgain": 0,
-      "hovertext": "A stick that gives you x1.2 attack and +5% crit chance",
-      "pricemodifier": 1.5
+      "hovertext": "A Stick that gives you x1.1 Attack and +2% crit chance",
+      "pricemodifier": 1.8
     },
     {
       "name": "Magic Coin",
@@ -18,20 +18,20 @@
       "defense": 0,
       "crit_chance": 0,
       "hp": 0,
-      "goldgain": 2.5,
-      "hovertext": "A Magic Coin that gives you x2.5 gold gain",
-      "pricemodifier": 4
+      "goldgain": 1.5,
+      "hovertext": "A Magic Coin that boosts your Gold gain by 1.5x",
+      "pricemodifier": 4.2
     },
     {
-      "name": "Slot 3",
-      "price": -1,
+      "name": "Wooden Armor",
+      "price": 300,
       "atk": 0,
-      "defense": 0,
+      "defense": 1.3,
       "crit_chance": 0,
       "hp": 0,
       "goldgain": 0,
-      "hovertext": "PLACEHOLDER",
-      "pricemodifier": 1
+      "hovertext": "Special Wooden Armor (very special) that boosts your defense by 1.3x",
+      "pricemodifier": 5
     },
     {
       "name": "Slot 4",

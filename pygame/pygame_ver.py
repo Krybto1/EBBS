@@ -73,7 +73,7 @@ def shake_image(screen, image, position, shake_intensity, shake_duration, bg_col
         offset_x = random.randint(-shake_intensity, shake_intensity)
         new_position = (original_position[0] + offset_x, original_position[1])
 
-        #pygame draw black line
+        # Pygame draw black line
         pygame.draw.line(screen, (0, 0, 0), (0, 590), (1200, 590), 2)
 
         # Fill the old position with the background color
@@ -168,7 +168,7 @@ def main():
     Shop_Button = misc2.Button(1050, 530, 150, 50, "Shop", (255, 255, 0), (255, 255, 100))
     Shop_Exit_Button = misc2.Button(1050, 600, 150, 50, "Exit", (0, 255, 0), (0, 255, 100))
 
-    actions = [None, None] #0 For Attack, 1 For Defend, 2 For Sleep
+    actions = [None, None]  # 0 = Attack, 1 = Defend, 2 = Sleep
     action_icons = [img_sword, img_shield, img_sleep]
     while running:
         clock.tick(60)
