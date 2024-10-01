@@ -38,6 +38,7 @@ def pregame_screen():
                 color = color_active if active else color_inactive
                 if Enter_Button.is_clicked(event):
                     done = True
+                    return text
             if event.type == pygame.KEYDOWN:
                 if active:
                     if event.key == pygame.K_RETURN:
@@ -62,9 +63,7 @@ def pregame_screen():
 
     return text
 
-CharName = pregame_screen()
-Knight1 = Knight(CharName, 100, 15, 10, 1, 0.01, 10, 100, 1)
-Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
+
 
 def shake_image(screen, image, position, shake_intensity, shake_duration, bg_color):
     end_time = time.time() + shake_duration
@@ -122,9 +121,11 @@ def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button, bg_line):
 
 
 def main():
+    CharName = pregame_screen()
+    Knight1 = Knight(CharName, 100, 15, 10, 1, 0.01, 10, 100, 1)
+    Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
     pygame.init()
     action_message = ""
-    pregame_screen = pygame.display.set_mode((1200, 800))
     screen = pygame.display.set_mode((1200, 800))
     shop_screen = pygame.display.set_mode((1200, 800))
     pygame.display.set_caption("Epic Boss Battle Simulator")
