@@ -355,7 +355,7 @@ def main():
 
         if Boss1.get_hp() <= 0:
             action_message = f"{Knight1.get_name()} has defeated {Boss1.get_name()} !"
-            action_message += f"<SPLIT>Gained {int((Boss1.get_xp() * Scale))} XP and {int(((10 * Floor) * Scale) * Knight1.goldgain)} Gold!"
+            action_message += f"<SPLIT>Gained {int((Boss1.get_xp() * Scale))} XP and {int(((6 * Floor) * Scale) * Knight1.goldgain)} Gold!"
             Knight1.set_xp(int(Knight1.get_xp() + (Boss1.get_xp() * Scale)))
             get_gold = Knight1.get_gold()
             Knight1.set_gold(int(get_gold + (((10 * Floor) * Scale) * Knight1.goldgain)))
