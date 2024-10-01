@@ -92,7 +92,16 @@ def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button):
     global shop_active, shop_items
     shop_active = True
     while shop_active:
+        shop_screen.fill((230, 230, 230))
+        shop_screen.blit(font.render(f"Welcome to the Shop!", 1, (10, 10, 10)), (500, 40))
+        shop_screen.blit(font.render(f"Current Gold: {Knight1.get_gold()}", 1, (10, 10, 10)), (500, 80))
+        Shop_Exit_Button.draw(shop_screen)
+        # Draw background boxes for shop items
+        shop_item_objects = Classes.draw_shop_items(shop_screen, shop_items, font, (100, 150), (150, 150), 50)
+        screen.blit(shop_screen, (0, 0))
         mouse_pos = pygame.mouse.get_pos()
+        # Handle hover text
+        Classes.handle_shop_hover(shop_item_objects, shop_screen, font, mouse_pos)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -106,18 +115,7 @@ def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button):
                     if item:
                         item["price"] = int(item["price"] * item["pricemodifier"])
 
-        shop_screen.fill((230, 230, 230))
-        shop_screen.blit(font.render(f"Welcome to the Shop!", 1, (10, 10, 10)), (500, 40))
-        shop_screen.blit(font.render(f"Current Gold: {Knight1.get_gold()}", 1, (10, 10, 10)), (500, 80))
-        Shop_Exit_Button.draw(shop_screen)
 
-        # Draw background boxes for shop items
-        shop_item_objects = Classes.draw_shop_items(shop_screen, shop_items, font, (100, 150), (150, 150), 50)
-
-        # Handle hover text
-        Classes.handle_shop_hover(shop_item_objects, shop_screen, font, mouse_pos)
-
-        screen.blit(shop_screen, (0, 0))
         pygame.draw.line(screen, (0, 0, 0), (0, 590), (1200, 590), 2)
         pygame.display.flip()
 
