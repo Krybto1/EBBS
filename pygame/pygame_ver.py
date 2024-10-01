@@ -141,11 +141,10 @@ def main():
     Scale = 1
     ItemsBonus = 0
     shop_active = False
-    action_colors = {"attack": (255, 0, 0),
-                     "sleep": (0, 200, 160),
-                     "defend": (0, 0, 255),
-                     "defeated": (0, 255, 0),
-                     "gained": (0, 255, 0)}
+    action_colors = {0: (255, 0, 0),
+                     2: (0, 200, 160),
+                     1: (0, 0, 255),
+                     99: (0, 255, 0)} # 99 is for defeated
 
 
 
@@ -170,6 +169,7 @@ def main():
     Shop_Exit_Button = misc2.Button(1050, 600, 150, 50, "Exit", (0, 255, 0), (0, 255, 100))
 
     actions = [None, None] #0 For Attack, 1 For Defend, 2 For Sleep
+    action_icons = [img_sword, img_shield, img_sleep]
     while running:
         clock.tick(60)
         crit_rdm = random.randint(1, 100)
@@ -310,23 +310,22 @@ def main():
                         action_message += f" <SPLIT>{Boss1.get_name()} sleeps and heals for {boss_heal} HP."
 
         screen.fill((230, 230, 230))
+        screen.blit(img_background, (0, 0))
+        if actions[0] is not None and actions[1] is not None:
+            screen.blit(action_icons[actions[0]], (350, 175))
+            screen.blit(action_icons[actions[1]], (725, 175))
         if action_message:
-            # get color action
-            player_color = None
-            boss_color = None
-            for word in action_message.split("<SPLIT>")[0].split():
-                for color in action_colors:
-                    if re.search(".*" + color + ".*", word, re.IGNORECASE):
-                        player_color = action_colors[color]
-                        break
-            for word in action_message.split("<SPLIT>")[1].split():
-                #reg ex check
-                for color in action_colors:
-                    if re.search(".*" + color + ".*", word, re.IGNORECASE):
-                        boss_color = action_colors[color]
-                        break
+            player_color = action_colors.get(actions[0])
+            boss_color = action_colors.get(actions[1])
+
+            if "defeated" in action_message.split("<SPLIT>")[0].split():
+                player_color = action_colors[99]
+                boss_color = action_colors[99]
             screen.blit(font.render(action_message.split("<SPLIT>")[0], 1, player_color if player_color else (0,0,0)), (200, 660))
             screen.blit(font.render(action_message.split("<SPLIT>")[1], 1, boss_color if boss_color else (0,0,0)), (200, 690))
+
+
+
         screen.blit(font.render(f"Floor {Floor} Turn {Turn}", 1, (10, 10, 10)), (500, 40))
 
         screen.blit(boss_name, boss_pos)
