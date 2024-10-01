@@ -8,7 +8,7 @@
       "crit_chance": 2,
       "hp": 0,
       "goldgain": 0,
-      "hovertext": "A Stick that gives you x1.1 Attack and +2% crit chance",
+      "hovertext": "A Stick that boosts your Attack stat by x1.1 and +2% crit chance",
       "pricemodifier": 1.8
     },
     {
@@ -19,7 +19,7 @@
       "crit_chance": 0,
       "hp": 0,
       "goldgain": 1.5,
-      "hovertext": "A Magic Coin that boosts your Gold gain by 1.5x",
+      "hovertext": "A Magic Coin that boosts your Gold gain stat by 1.5x",
       "pricemodifier": 4.2
     },
     {
@@ -30,7 +30,7 @@
       "crit_chance": 0,
       "hp": 0,
       "goldgain": 0,
-      "hovertext": "Special Wooden Armor (very special) that boosts your defense by 1.3x",
+      "hovertext": "Special Wooden Armor (very special) that boosts your defense stat by 1.3x",
       "pricemodifier": 5
     },
     {

@@ -355,7 +355,6 @@ def main():
         Sleep_Button.draw(screen)
         Shop_Button.draw(screen)
 
-
         if Boss1.get_hp() <= 0:
             action_message = f"{Knight1.get_name()} has defeated {Boss1.get_name()} !"
             action_message += f"<SPLIT>Gained {int((Boss1.get_xp() * Scale))} XP and {int(((10 * Floor) * Scale) * Knight1.goldgain)} Gold!"
