@@ -10,10 +10,61 @@ import re
 
 shop_items = loader.load("items.json")
 
-CharName = input("Enter your character name: ")
+
+def pregame_screen():
+    pygame.init()
+    screen = pygame.display.set_mode((1200, 800))
+    font_loader = "C:/Windows/Fonts/Calibri.ttf"
+    font = pygame.font.Font(font_loader, 27)
+    Enter_Button = misc2.Button(650, 300, 150, 50, "Enter", (230, 230, 230), (200, 100, 0))
+    input_box = pygame.Rect(450, 300, 200, 50)
+    color_inactive = pygame.Color('lightskyblue3')
+    color_active = pygame.Color('dodgerblue2')
+    color = color_inactive
+    active = False
+    text = ''
+    done = False
+
+    while not done:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if input_box.collidepoint(event.pos):
+                    active = not active
+                else:
+                    active = False
+                color = color_active if active else color_inactive
+                if Enter_Button.is_clicked(event):
+                    done = True
+            if event.type == pygame.KEYDOWN:
+                if active:
+                    if event.key == pygame.K_RETURN:
+                        done = True
+                    elif event.key == pygame.K_BACKSPACE:
+                        text = text[:-1]
+                    else:
+                        text += event.unicode
+
+        screen.fill((120, 120, 120))
+        screen.blit(font.render(f"Welcome to the Epic Boss Battle Simulator!", 1, (255, 100, 100)), (400, 180))
+        screen.blit(font.render(f"Choose your Character's Name :)", 1, (255, 100, 100)), (450, 210))
+        Enter_Button.draw(screen)
+
+        txt_surface = font.render(text, True, color)
+        width = max(200, txt_surface.get_width()+10)
+        input_box.w = width
+        screen.blit(txt_surface, (input_box.x+5, input_box.y+5))
+        pygame.draw.rect(screen, color, input_box, 2)
+
+        pygame.display.flip()
+
+    return text
+
+CharName = pregame_screen()
 Knight1 = Knight(CharName, 100, 15, 10, 1, 0.01, 10, 100, 1)
 Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
-
 
 def shake_image(screen, image, position, shake_intensity, shake_duration, bg_color):
     end_time = time.time() + shake_duration
@@ -69,9 +120,11 @@ def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button, bg_line):
         shop_screen.blit(bg_line, (0, 590))
         pygame.display.flip()
 
+
 def main():
     pygame.init()
     action_message = ""
+    pregame_screen = pygame.display.set_mode((1200, 800))
     screen = pygame.display.set_mode((1200, 800))
     shop_screen = pygame.display.set_mode((1200, 800))
     pygame.display.set_caption("Epic Boss Battle Simulator")
@@ -94,6 +147,7 @@ def main():
 
 
     font_loader = "C:/Windows/Fonts/Calibri.ttf"
+    font = pygame.font.Font(font_loader, 27)
     Boss_Choices = ("Attack", "Defend", "Sleep")
     img_enemy = pygame.image.load("img/Goblin_Test.jpg")
     img_sword = pygame.image.load("img/Sword_Icon.png")
@@ -106,7 +160,6 @@ def main():
     img_gold = pygame.image.load("img/Gold_Icon.jpg")
     img_gold = pygame.transform.scale(img_gold, (50, 50))
 
-    font = pygame.font.Font(font_loader, 27)
     Atk_Button = misc2.Button(500, 100, 150, 50, "Attack", (170, 0, 0), (200, 100, 0))
     Def_Button = misc2.Button(500, 175, 150, 50, "Defend", (0, 0, 170), (0, 100, 200))
     Sleep_Button = misc2.Button(500, 250, 150, 50, "Sleep", (170, 0, 170), (200, 0, 200))
@@ -341,6 +394,5 @@ def main():
             pygame.time.delay(5000)
             running = False
         pygame.display.flip()
-
 
 if __name__ == "__main__": main()
