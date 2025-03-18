@@ -2,7 +2,7 @@
     {
       "id": 1,
       "name": "HP Up",
-      "skill_cost": 1,
+      "skill_cost": 5,
       "stats": [
         {
           "health": 300,
@@ -16,7 +16,7 @@
     {
       "id": 2,
       "name": "Atk Up",
-      "skill_cost": 1,
+      "skill_cost": 5,
       "stats": [
         {
           "attack": 100,
@@ -32,7 +32,7 @@
     {
       "id": 3,
       "name": "Def Up",
-      "skill_cost": 1,
+      "skill_cost": 5,
       "stats": [
         {
           "defense": 100,

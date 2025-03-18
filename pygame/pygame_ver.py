@@ -12,6 +12,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
+BLACK = (0, 0, 0)
 
 
 shop_items = loader.load("items.json")
@@ -170,12 +171,12 @@ def skill_tree_screen(screen, font, Knight1, Skill_Tree_Exit_Button):
                     dep_x, dep_y = skill_positions[dep]
                     pygame.draw.line(screen, BLUE, (x + 100, y), (dep_x + 100, dep_y + 50), 2)
 
-            # Zeichne Skills
+            # Draw Skills
             for skill in skill_tree:
                 skill_id = skill["id"]
                 x, y = skill_positions[skill_id]
 
-                # Farbe basierend auf Freischaltung
+                # Color based on Unlock
                 unlocked_color = GREEN if skill["is_unlocked"] else RED
                 pygame.draw.rect(screen, unlocked_color, (x, y, 200, 50))
 
@@ -183,9 +184,13 @@ def skill_tree_screen(screen, font, Knight1, Skill_Tree_Exit_Button):
                 text = font.render(skill["name"], True, WHITE)
                 screen.blit(text, (x + 10, y + 10))
 
-            # Skillpunkte anzeigen
+                # Skill Cost
+                cost_text = font.render(f"Cost: {skill['skill_cost']}", True, BLACK)
+                screen.blit(cost_text, (x + 10, y + 60))
+
+            # Skillpoints
             points_text = font.render(f"Skill Points: {Knight1.skill_points}", True, BLUE)
-            screen.blit(points_text, (10, 10))
+            screen.blit(points_text, (400, 75))
 
             pygame.display.flip()
 
