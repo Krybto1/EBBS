@@ -8,7 +8,14 @@ import os
 import loader
 import re
 
+WHITE = (255, 255, 255)
+GREEN = (0, 255, 0)
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+
+
 shop_items = loader.load("items.json")
+skill_tree = loader.load_skills("skill_tree.json")
 
 
 def pregame_screen():
@@ -120,9 +127,86 @@ def enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button):
         pygame.display.flip()
 
 
+def skill_tree_screen(screen, font, Knight1, Skill_Tree_Exit_Button):
+    global skill_tree
+    skill_tree_active = True
+
+    def handle_click(pos):
+        global skill_points
+        for skill in skill_tree:
+            skill_id = skill["id"]
+            x, y = skill_positions[skill_id]
+
+            if x <= pos[0] <= x + 200 and y <= pos[1] <= y + 50:
+                success, Knight1.skill_points = loader.buy_skill(skill_tree, skill_id, Knight1.skill_points)  # Jetzt mit Skillpunkten
+                if success:
+                    skill_health = loader.get_skill_by_id(skill_tree, skill_id)["stats"][0]["health"]
+                    skill_defense = loader.get_skill_by_id(skill_tree, skill_id)["stats"][0]["defense"]
+                    skill_attack = loader.get_skill_by_id(skill_tree, skill_id)["stats"][0]["attack"]
+
+                    Knight1.set_bonus(Knight1.get_bonus() + skill_health)
+                    Knight1.set_defense(Knight1.get_defense() + skill_defense)
+                    Knight1.set_attack(Knight1.get_attack() + skill_attack)
+                else:
+                    print(f"Skill {skill['name']} konnte nicht gekauft werden.")
+
+    while skill_tree_active:
+        screen.fill((230, 230, 230))
+        screen.blit(font.render(f"Welcome to the Skill Tree!", 1, (10, 10, 10)), (400, 40))
+        Skill_Tree_Exit_Button.draw(screen)
+        skill_positions = {
+            1: (450, 500),
+            2: (750, 425),
+            3: (150, 425)
+        }
+
+        def draw_skill_tree():
+            # Zeichne Abhängigkeiten (Verbindungslinien)
+            for skill in skill_tree:
+                skill_id = skill["id"]
+                x, y = skill_positions[skill_id]
+
+                for dep in skill["dependencies"]:
+                    dep_x, dep_y = skill_positions[dep]
+                    pygame.draw.line(screen, BLUE, (x + 100, y), (dep_x + 100, dep_y + 50), 2)
+
+            # Zeichne Skills
+            for skill in skill_tree:
+                skill_id = skill["id"]
+                x, y = skill_positions[skill_id]
+
+                # Farbe basierend auf Freischaltung
+                unlocked_color = GREEN if skill["is_unlocked"] else RED
+                pygame.draw.rect(screen, unlocked_color, (x, y, 200, 50))
+
+                # Skill Name
+                text = font.render(skill["name"], True, WHITE)
+                screen.blit(text, (x + 10, y + 10))
+
+            # Skillpunkte anzeigen
+            points_text = font.render(f"Skill Points: {Knight1.skill_points}", True, BLUE)
+            screen.blit(points_text, (10, 10))
+
+            pygame.display.flip()
+
+        # Draw background boxes for shop items
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                handle_click(event.pos)
+            if Skill_Tree_Exit_Button.is_clicked(event):
+                skill_tree_active = False
+
+        draw_skill_tree()
+        pygame.draw.line(screen, (0, 0, 0), (0, 590), (1200, 590), 2)
+        pygame.display.flip()
+
+
 def main():
     CharName = pregame_screen()
-    Knight1 = Knight(CharName, 100, 15, 10, 1, 0.01, 10, 100, 1)
+    Knight1 = Knight(CharName, 100, 15, 10, 1, 0.01, 10, 100, 1, skill_points=25)
     Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
     pygame.init()
     action_message = ""
@@ -165,6 +249,8 @@ def main():
     Sleep_Button = misc2.Button(500, 250, 150, 50, "Sleep", (170, 0, 170), (200, 0, 200))
     Shop_Button = misc2.Button(1050, 530, 150, 50, "Shop", (255, 255, 0), (255, 255, 100))
     Shop_Exit_Button = misc2.Button(1050, 600, 150, 50, "Exit", (0, 255, 0), (0, 255, 100))
+    Skill_Tree_Button = misc2.Button(900, 530, 150, 50, "Skill Tree", (0, 255, 0), (0, 255, 100))
+    Skill_Tree_Exit_Button = misc2.Button(900, 600, 150, 50, "Exit", (255, 0, 0), (255, 0, 100))
 
     actions = [None, None]  # 0 = Attack, 1 = Defend, 2 = Sleep
     action_icons = [img_sword, img_shield, img_sleep]
@@ -197,6 +283,8 @@ def main():
                 running = False
             if Shop_Button.is_clicked(event):
                 enter_shop(screen, shop_screen, font, Knight1, Shop_Exit_Button)
+            if Skill_Tree_Button.is_clicked(event):
+                skill_tree_screen(screen, font, Knight1, Skill_Tree_Exit_Button)
             if Atk_Button.is_clicked(event):
                 actions[0] = 0
                 player_crit = 0
@@ -347,11 +435,13 @@ def main():
         screen.blit(font.render(f"Crit Chance: {int(Knight1.get_crit_chance())}%", 1, (255, 0, 255)), (100, 520))
         screen.blit(font.render(f"Gold: {int(Knight1.get_gold())}", 1, (230, 230, 80)), (100, 550))
         screen.blit(img_player, (100, 100))
+        screen.blit(font.render(f"Skill Points: {int(Knight1.get_skill_points())}", 1, (0, 255, 255)), (100, 610))
 
         Atk_Button.draw(screen)
         Def_Button.draw(screen)
         Sleep_Button.draw(screen)
         Shop_Button.draw(screen)
+        Skill_Tree_Button.draw(screen)
 
         if Boss1.get_hp() <= 0:
             action_message = f"{Knight1.get_name()} has defeated {Boss1.get_name()} !"
@@ -423,7 +513,7 @@ def main():
             Turn = 0
         elif Knight1.get_hp() <= 0:
             action_message = f"{Knight1.get_name()} has been defeated by {Boss1.get_name()} !"
-            action_message += f"<SPLIT>Killcount: {Kill_Count}           Game Over!"
+            action_message += f"<SPLIT>Killcount: {Kill_Count} Game Over!"
             pygame.display.flip()
             pygame.time.delay(5000)
             running = False

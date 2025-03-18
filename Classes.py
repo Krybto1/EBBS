@@ -63,7 +63,7 @@ class Boss:
         pygame.draw.rect(screen, (0, 255, 0), (x, y, hp_width, height))
 
 class Knight:
-    def __init__(self, name, hp, atk, defense, level, xp, crit_chance, gold, goldgain):
+    def __init__(self, name, hp, atk, defense, level, xp, crit_chance, gold, goldgain, skill_points):
         self.name = name
         self.hp = hp
         self.atk = atk
@@ -73,6 +73,8 @@ class Knight:
         self.crit_chance = crit_chance
         self.gold = gold
         self.goldgain = goldgain
+        self.skill_points = skill_points
+        self.bonus = 0
 
     def get_name(self):
         return self.name
@@ -81,7 +83,7 @@ class Knight:
         return int(self.hp)
 
     def get_max_hp(self):
-        return int(100 + (40 * self.level) if self.level > 1 else 100)
+        return int(100 + ((40 * self.level) + self.bonus) if self.level > 1 else 100)
 
     def set_hp(self, hp):
         self.hp = hp
@@ -113,7 +115,6 @@ class Knight:
     def get_max_xp(self):
         return int((80 * self.get_level()) ** 1.07)
 
-
     def get_crit_chance(self):
         return self.crit_chance
 
@@ -133,8 +134,21 @@ class Knight:
     def set_goldgain(self, goldgain):
         self.goldgain = goldgain
 
+    def set_skill_points(self, skill_points):
+        self.skill_points = skill_points
+
+    def get_skill_points(self):
+        return self.skill_points
+
+    def set_bonus(self, bonus):
+        self.bonus = bonus
+
+    def get_bonus(self):
+        return self.bonus
+
     def level_up(self):
         self.level += 1
+        self.skill_points += 1
         self.hp = int(self.get_max_hp())
         self.atk = int(self.get_attack() + 10)
         self.defense = int(self.get_defense() + 6)

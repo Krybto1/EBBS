@@ -1,0 +1,48 @@
+[
+    {
+      "id": 1,
+      "name": "HP Up",
+      "skill_cost": 1,
+      "stats": [
+        {
+          "health": 300,
+          "attack": 0,
+          "defense": 0
+        }
+      ],
+      "dependencies": [],
+      "is_unlocked": false
+    },
+    {
+      "id": 2,
+      "name": "Atk Up",
+      "skill_cost": 1,
+      "stats": [
+        {
+          "attack": 100,
+          "defense": 0,
+          "health": 0
+        }
+      ],
+      "dependencies": [
+        1
+      ],
+      "is_unlocked": false
+    },
+    {
+      "id": 3,
+      "name": "Def Up",
+      "skill_cost": 1,
+      "stats": [
+        {
+          "defense": 100,
+          "health": 0,
+          "attack": 0
+        }
+      ],
+      "dependencies": [
+        1
+      ],
+      "is_unlocked": false
+    }
+  ]
