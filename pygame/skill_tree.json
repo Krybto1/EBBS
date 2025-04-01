@@ -7,11 +7,13 @@
         {
           "health": 300,
           "attack": 0,
-          "defense": 0
+          "defense": 0,
+          "goldgain": 0
         }
       ],
       "dependencies": [],
-      "is_unlocked": false
+      "is_unlocked": false,
+      "hover_text": "Increases health by 300"
     },
     {
       "id": 2,
@@ -21,13 +23,15 @@
         {
           "attack": 100,
           "defense": 0,
-          "health": 0
+          "health": 0,
+          "goldgain": 0
         }
       ],
       "dependencies": [
         1
       ],
-      "is_unlocked": false
+      "is_unlocked": false,
+      "hover_text": "Increases attack by 100"
     },
     {
       "id": 3,
@@ -37,12 +41,32 @@
         {
           "defense": 100,
           "health": 0,
-          "attack": 0
+          "attack": 0,
+          "goldgain": 0
         }
       ],
       "dependencies": [
         1
       ],
-      "is_unlocked": false
-    }
-  ]
+      "is_unlocked": false,
+      "hover_text": "Increases defense by 100"
+    },
+  {
+    "id": 4,
+    "name": "Gold Up",
+    "skill_cost": 10,
+    "stats": [
+      {
+        "health": 0,
+        "attack": 0,
+        "defense": 0,
+        "goldgain": 0.5
+      }
+    ],
+    "dependencies": [
+      3
+    ],
+    "is_unlocked": false,
+    "hover_text": "Increases gold gain by 50%"
+  }
+]

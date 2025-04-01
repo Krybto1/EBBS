@@ -139,17 +139,55 @@ def skill_tree_screen(screen, font, Knight1, Skill_Tree_Exit_Button):
             x, y = skill_positions[skill_id]
 
             if x <= pos[0] <= x + 200 and y <= pos[1] <= y + 50:
-                success, Knight1.skill_points = loader.buy_skill(skill_tree, skill_id, Knight1.skill_points)  # Jetzt mit Skillpunkten
+                success, Knight1.skill_points = loader.buy_skill(skill_tree, skill_id, Knight1.skill_points)
                 if success:
                     skill_health = loader.get_skill_by_id(skill_tree, skill_id)["stats"][0]["health"]
                     skill_defense = loader.get_skill_by_id(skill_tree, skill_id)["stats"][0]["defense"]
                     skill_attack = loader.get_skill_by_id(skill_tree, skill_id)["stats"][0]["attack"]
+                    skill_gold = loader.get_skill_by_id(skill_tree, skill_id)["stats"][0]["goldgain"]
 
                     Knight1.set_bonus(Knight1.get_bonus() + skill_health)
                     Knight1.set_defense(Knight1.get_defense() + skill_defense)
                     Knight1.set_attack(Knight1.get_attack() + skill_attack)
+                    Knight1.set_goldgain(Knight1.get_goldgain() + skill_gold)
                 else:
                     print(f"Skill {skill['name']} konnte nicht gekauft werden.")
+
+    def draw_skill_tree():
+        for skill in skill_tree:
+            skill_id = skill["id"]
+            x, y = skill_positions[skill_id]
+
+            for dep in skill["dependencies"]:
+                dep_x, dep_y = skill_positions[dep]
+                pygame.draw.line(screen, BLUE, (x + 100, y), (dep_x + 100, dep_y + 50), 2)
+
+        for skill in skill_tree:
+            skill_id = skill["id"]
+            x, y = skill_positions[skill_id]
+
+            unlocked_color = GREEN if skill["is_unlocked"] else RED
+            pygame.draw.rect(screen, unlocked_color, (x, y, 200, 50))
+
+            text = font.render(skill["name"], True, WHITE)
+            screen.blit(text, (x + 10, y + 10))
+
+            cost_text = font.render(f"Cost: {skill['skill_cost']}", True, BLACK)
+            screen.blit(cost_text, (x + 10, y + 60))
+
+        points_text = font.render(f"Skill Points: {Knight1.skill_points}", True, BLUE)
+        screen.blit(points_text, (400, 75))
+
+    def handle_hover(pos):
+        for skill in skill_tree:
+            skill_id = skill["id"]
+            x, y = skill_positions[skill_id]
+
+            if x <= pos[0] <= x + 200 and y <= pos[1] <= y + 50:
+                hover_text = f"{skill['hover_text']}"
+                text_surface = font.render(hover_text, True, BLACK)
+                screen.blit(text_surface, (pos[0], pos[1] - 20))
+                break
 
     while skill_tree_active:
         screen.fill((230, 230, 230))
@@ -158,43 +196,12 @@ def skill_tree_screen(screen, font, Knight1, Skill_Tree_Exit_Button):
         skill_positions = {
             1: (450, 500),
             2: (750, 425),
-            3: (150, 425)
+            3: (150, 425),
+            4: (150, 325)
         }
 
-        def draw_skill_tree():
-            # Zeichne Abhängigkeiten (Verbindungslinien)
-            for skill in skill_tree:
-                skill_id = skill["id"]
-                x, y = skill_positions[skill_id]
+        draw_skill_tree()
 
-                for dep in skill["dependencies"]:
-                    dep_x, dep_y = skill_positions[dep]
-                    pygame.draw.line(screen, BLUE, (x + 100, y), (dep_x + 100, dep_y + 50), 2)
-
-            # Draw Skills
-            for skill in skill_tree:
-                skill_id = skill["id"]
-                x, y = skill_positions[skill_id]
-
-                # Color based on Unlock
-                unlocked_color = GREEN if skill["is_unlocked"] else RED
-                pygame.draw.rect(screen, unlocked_color, (x, y, 200, 50))
-
-                # Skill Name
-                text = font.render(skill["name"], True, WHITE)
-                screen.blit(text, (x + 10, y + 10))
-
-                # Skill Cost
-                cost_text = font.render(f"Cost: {skill['skill_cost']}", True, BLACK)
-                screen.blit(cost_text, (x + 10, y + 60))
-
-            # Skillpoints
-            points_text = font.render(f"Skill Points: {Knight1.skill_points}", True, BLUE)
-            screen.blit(points_text, (400, 75))
-
-            pygame.display.flip()
-
-        # Draw background boxes for shop items
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
@@ -204,14 +211,16 @@ def skill_tree_screen(screen, font, Knight1, Skill_Tree_Exit_Button):
             if Skill_Tree_Exit_Button.is_clicked(event):
                 skill_tree_active = False
 
-        draw_skill_tree()
+        mouse_pos = pygame.mouse.get_pos()
+        handle_hover(mouse_pos)
+
         pygame.draw.line(screen, (0, 0, 0), (0, 590), (1200, 590), 2)
         pygame.display.flip()
 
 
 def main():
     CharName = pregame_screen()
-    Knight1 = Knight(CharName, 100, 15, 10, 1, 0.01, 10, 100, 1, skill_points=25)
+    Knight1 = Knight(CharName, 100, 15, 10, 1, 0.01, 10, 100, 1, skill_points=0)
     Boss1 = Boss(f"{misc2.rarity_tiers[0]} {'Goblin'}", 75, 13, 5, 1)
     pygame.init()
     action_message = ""
@@ -232,8 +241,6 @@ def main():
                      2: (0, 200, 160),
                      1: (0, 0, 255),
                      99: (0, 255, 0)} # 99 is for defeated
-
-
 
     font_loader = "C:/Windows/Fonts/Calibri.ttf"
     font = pygame.font.Font(font_loader, 27)

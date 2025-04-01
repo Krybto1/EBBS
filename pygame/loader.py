@@ -58,4 +58,3 @@ def buy_skill(skills, id_, skill_points):
 
 if __name__ == "__main__":
     items = load("items.json")
-    print(get_item_by_name(items, "Stick"))
